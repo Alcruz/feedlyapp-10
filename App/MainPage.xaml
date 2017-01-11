@@ -5,7 +5,13 @@
     xmlns:local="using:App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:App.ViewModels"
     mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewModels:SignInViewModel x:Name="SignInViewModel" />
+    </Page.DataContext>
+
     <Page.Resources>
         <Style TargetType="Control" x:Name="FormControlStyle">
             <Setter Property="Margin" Value="0,20,20,0" />
@@ -27,9 +33,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel VerticalAlignment="Center" Width="720">
-            <TextBox Style="{StaticResource TextBoxStyle}" PlaceholderText="Email Account" />
-            <PasswordBox Style="{StaticResource PasswordBoxStyle}" PlaceholderText="Password" />
-            <Button HorizontalAlignment="Right" Content="Sign In" />
+            <TextBox Text="{Binding EmailAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Email Account" Style="{StaticResource TextBoxStyle}" />
+            <PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" />
+            <Button HorizontalAlignment="Right" Content="Sign In" Command="{Binding SignInCommand}" />
         </StackPanel>
     </Grid>
 </Page>
