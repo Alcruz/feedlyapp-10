@@ -34,7 +34,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel VerticalAlignment="Center" Width="720">
             <TextBox Text="{Binding EmailAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Email Account" Style="{StaticResource TextBoxStyle}" />
-            <PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Password" Style="{StaticResource PasswordBoxStyle}" />
             <Button HorizontalAlignment="Right" Content="Sign In" Command="{Binding SignInCommand}" />
         </StackPanel>
     </Grid>

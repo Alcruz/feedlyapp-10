@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using Windows.Security.Authentication.Web;
 using App.Utils;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace App.ViewModels
 {
     public class SignInViewModel : ViewModelBase
     {
         private string _emailAccount;
-        private string _password;
 
         public string EmailAccount
         {
@@ -25,16 +23,6 @@ namespace App.ViewModels
             }
         }
 
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                Set(ref _password, value);
-                SignInCommand.RaiseCanExecuteChanged();
-            }
-        }
-
         public RelayCommand SignInCommand { get; set; }
 
         public SignInViewModel()
@@ -42,15 +30,34 @@ namespace App.ViewModels
             SignInCommand = new RelayCommand(async () => await SignIn(), IsSignInCommandEnabled);
         }
 
-        private bool IsSignInCommandEnabled() =>
-            !string.IsNullOrEmpty(EmailAccount) && !string.IsNullOrEmpty(Password);
+        private bool IsSignInCommandEnabled() => !string.IsNullOrEmpty(EmailAccount);
 
-        public Task SignIn()
+        public async Task SignIn()
         {
             Assert.IsNotNull(EmailAccount, nameof(EmailAccount));
-            Assert.IsNotNull(Password, nameof(Password));
+            var uriBuilder = new UriBuilder("https://sandbox.feedly.com/v3/auth/auth");
+            var queryString = new List<KeyValuePair<string, string>>
+            {
+                { "response_type", "code" },
+                { "client_id", EmailAccount},
+                { "redirect_uri",  "http://localhost" },
+                { "scope", "https://cloud.feedly.com/subscriptions" }
+            };
 
-            return Task.Delay(1000);
+            uriBuilder.AddQueryParameters(queryString);
+
+            var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri("http://localhost"));
+            if (webAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
+            {
+               var queryParams = new UriBuilder(webAuthenticationResult.ResponseData).ParsedQuery();
+                
+            }
         }
+
+    }
+
+    public class OAuth2SignInMessage : MessageBase
+    {
+        public Uri Uri { get; set; }
     }
 }

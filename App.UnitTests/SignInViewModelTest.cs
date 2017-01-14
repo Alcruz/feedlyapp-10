@@ -11,7 +11,6 @@ namespace App.UnitTests
         {
             var signInViewModel = new SignInViewModel();
             signInViewModel.EmailAccount = "johndow@domain.com";
-            signInViewModel.Password = "123abc";
             
             Assert.True(signInViewModel.SignInCommand.CanExecute(null));
         }
@@ -24,26 +23,16 @@ namespace App.UnitTests
 
             signInViewModel.SignInCommand.CanExecuteChanged += (sender, args) => commandHasNotified = true;
             signInViewModel.EmailAccount = "johndow@domain.com";
-            signInViewModel.Password = "123abc";
             
             Assert.True(commandHasNotified);
         }
 
 
         [Fact]
-        public void SignIn_EmailAccountPropertyIsNotNullWhenSignIn()
+        public async void SignIn_EmailAccountPropertyIsNullWhenSignIn_ThrowsNullReferenceException()
         {
             var signInViewModel = new SignInViewModel();
-            signInViewModel.Password = "";
-            Assert.ThrowsAny<ArgumentNullException>(() => signInViewModel.SignIn());
-        }
-
-        [Fact]
-        public void SignIn_PasswordPropertyIsNotNullWhenSignIn()
-        {
-            var signInViewModel = new SignInViewModel();
-            signInViewModel.EmailAccount = "";
-            Assert.ThrowsAny<ArgumentNullException>(() => signInViewModel.SignIn());
+            await Assert.ThrowsAsync<ArgumentNullException>(() => signInViewModel.SignIn());
         }
     }
 }

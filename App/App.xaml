@@ -5,4 +5,9 @@
     xmlns:local="using:App"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <local:ViewModelLocator x:Name="ViewModelLocator" />
+    </Application.Resources>
+
+
 </Application>
