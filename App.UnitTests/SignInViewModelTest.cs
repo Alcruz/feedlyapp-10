@@ -38,5 +38,16 @@ namespace App.UnitTests
             var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub());
             await Assert.ThrowsAsync<ArgumentNullException>(() => signInViewModel.SignIn());
         }
+
+        [Fact]
+        public async void SignIn_FeedlyOAuth2AuthenticatorReturnsNullAsAccessCode_NotifyUIWithAuthError()
+        {
+            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub())
+            {
+                EmailAccount = "alvinj.delacruz@gmail.com"
+            };
+            await signInViewModel.SignIn();
+            Assert.NotNull(signInViewModel.EmailAccountError);
+        }
     }
 }

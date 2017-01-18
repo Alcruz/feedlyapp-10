@@ -7,12 +7,12 @@ namespace App.UnitTests.Fakes
     {
         public override Task<OAuthToken> Auth(string authCode)
         {
-            return base.Auth(authCode);
+            return null;
         }
 
         public override Task<string> RequestAuthCode(string username)
         {
-            return base.RequestAuthCode(username);
+            return Task.FromResult<string>(null);
         }
     }
 }

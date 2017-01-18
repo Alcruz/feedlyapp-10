@@ -20,7 +20,7 @@ namespace App.ViewModels
                 SignInCommand.RaiseCanExecuteChanged();
             }
         }
-
+        public string EmailAccountError { get; set; }
         public RelayCommand SignInCommand { get; set; }
 
         public SignInViewModel(FeedlyOAuth2Authenticator feedlyOAuth2Authenticator)
@@ -37,7 +37,7 @@ namespace App.ViewModels
             var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode(EmailAccount);
             if (authCode == null)
             {
-                //TODO: Notify user about invalid user account
+                EmailAccountError = "Error";
             }
         }
 
