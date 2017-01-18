@@ -2,11 +2,11 @@
     x:Class="App.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:App"
+    xmlns:viewModels="using:App.ViewModels"
     RequestedTheme="Light">
 
     <Application.Resources>
-        <local:ViewModelLocator x:Name="ViewModelLocator" />
+        <viewModels:ViewModelLocator x:Name="ViewModelLocator" />
     </Application.Resources>
 
 
