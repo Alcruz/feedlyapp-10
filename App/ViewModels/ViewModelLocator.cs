@@ -15,7 +15,7 @@ namespace App.ViewModels
             SimpleIoc.Default.Register<INavigationService>(() =>
             {
                 var navService = new NavigationService();
-                navService.Configure(nameof(Pages.MainPage), typeof(Pages.MainPage));
+                navService.Configure(nameof(Pages.LoginPage), typeof(Pages.LoginPage));
                 return navService;
             });
             SimpleIoc.Default.Register<FeedlyOAuth2Authenticator>();
