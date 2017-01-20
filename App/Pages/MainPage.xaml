@@ -27,7 +27,13 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel VerticalAlignment="Center" Width="720">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ProgressBar Visibility="{Binding IsLoading, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}" 
+                     IsIndeterminate="True" />
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Width="720">
             <TextBox Text="{Binding EmailAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Email Account" Style="{StaticResource TextBoxStyle}" />
             <Button HorizontalAlignment="Right" Content="Sign In" Command="{Binding SignInCommand}" />
         </StackPanel>

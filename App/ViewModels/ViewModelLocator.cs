@@ -12,7 +12,7 @@ namespace App.ViewModels
         {
             SimpleIoc.Default.Register<SignInViewModel>();
             SimpleIoc.Default.Register<DialogService>();
-            SimpleIoc.Default.Register(() =>
+            SimpleIoc.Default.Register<INavigationService>(() =>
             {
                 var navService = new NavigationService();
                 navService.Configure(nameof(Pages.MainPage), typeof(Pages.MainPage));

@@ -11,7 +11,7 @@ namespace App.UnitTests
         [Fact]
         public void SignInCommand_IsActivateWhenEmailAccountAndPasswordAreNotNullOrEmpty()
         {
-            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub())
+            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub(), null)
             {
                 EmailAccount = "johndow@domain.com"
             };
@@ -22,7 +22,7 @@ namespace App.UnitTests
         [Fact]
         public void SignInCommand_RaisCanExecuteChangeEventWhenEmailAccountAndPasswordChange()
         {
-            var signInViewModel = new SignInViewModel(new FeedlyOAuth2Authenticator());
+            var signInViewModel = new SignInViewModel(new FeedlyOAuth2Authenticator(), null);
             bool commandHasNotified = false;
 
             signInViewModel.SignInCommand.CanExecuteChanged += (sender, args) => commandHasNotified = true;
@@ -35,14 +35,14 @@ namespace App.UnitTests
         [Fact]
         public async void SignIn_EmailAccountPropertyIsNullWhenSignIn_ThrowsNullReferenceException()
         {
-            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub());
+            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub(), null);
             await Assert.ThrowsAsync<ArgumentNullException>(() => signInViewModel.SignIn());
         }
 
         [Fact]
         public async void SignIn_FeedlyOAuth2AuthenticatorReturnsNullAsAccessCode_NotifyUIWithAuthError()
         {
-            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub())
+            var signInViewModel = new SignInViewModel(new FeedlyOAuth2AuthenticatorStub(), null)
             {
                 EmailAccount = "alvinj.delacruz@gmail.com"
             };
