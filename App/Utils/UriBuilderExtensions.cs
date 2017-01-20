@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace App.Utils
 {
@@ -15,13 +16,13 @@ namespace App.Utils
 
         public static IDictionary<string, string> ParsedQuery(this UriBuilder uriBuilder)
         {
-            return uriBuilder.Query
-                .Split(new[] {"&"}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(param =>
-                {
-                    var paramValue = param.Split(new[] {"="}, StringSplitOptions.None);
-                    return new KeyValuePair<string, string>(paramValue[0], paramValue[1]);
-                }).ToImmutableDictionary();
+            var matches = Regex.Matches(uriBuilder.Query, @"[\?&](?<name>[^&=]+)=(?<value>[^&=]+)");
+            var dict = new Dictionary<string, string>();
+            foreach (Match match in matches)
+            {
+                dict[match.Groups["name"].Value] = match.Groups["value"].Value;
+            }
+            return dict;
         }
     }
 }

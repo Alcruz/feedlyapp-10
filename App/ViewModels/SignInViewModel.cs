@@ -34,11 +34,21 @@ namespace App.ViewModels
         public async Task SignIn()
         {
             Assert.IsNotNull(EmailAccount, nameof(EmailAccount));
+            var doesAccountExist = await _feedlyOAuth2Authenticator.ValidateAccount(EmailAccount);
+            if (!doesAccountExist)
+            {
+                EmailAccountError = "Invalid account";
+                return;
+            }
+
             var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode(EmailAccount);
             if (authCode == null)
             {
-                EmailAccountError = "Error";
+                EmailAccountError = "Invalid credentials";
+                return;
             }
+
+            var authToken = await _feedlyOAuth2Authenticator.Authenticate(EmailAccount, authCode);
         }
 
     }
