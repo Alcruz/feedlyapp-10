@@ -12,13 +12,13 @@ namespace App.Services.OAuth
 {
     public class FeedlyOAuth2Authenticator
     {
-        private UriBuilder BuildUri(string clientId)
+        private UriBuilder BuildUri()
         {
             var uriBuilder = new UriBuilder("https://sandbox.feedly.com/v3/auth/auth");
             var queryString = new List<KeyValuePair<string, string>>
             {
                 {"response_type", "code"},
-                {"client_id", clientId},
+                {"client_id", "sandbox"},
                 {"redirect_uri", "http://localhost"},
                 {"scope", "https://cloud.feedly.com/subscriptions"}
             };
@@ -26,14 +26,14 @@ namespace App.Services.OAuth
             uriBuilder.AddQueryParameters(queryString);
             return uriBuilder;
         }
-        public virtual async Task<OAuthToken> Authenticate(string emailAccount, string authCode)
+        public virtual async Task<OAuthToken> Authenticate(string authCode)
         {
             using (var httpClient = new HttpClient())
             {
                 var request = new Dictionary<string, string>()
                 {
                     ["code"] = authCode,
-                    ["client_id"] = emailAccount,
+                    ["client_id"] = "sandbox",
                     ["client_secret"] = "R26NGS2Q9NAPSEJHCXM3",
                     ["redirect_uri"] = "http://localhost",
                     ["grant_type"] = "authorization_code"
@@ -55,10 +55,10 @@ namespace App.Services.OAuth
             }
         }
 
-        public virtual async Task<string> RequestAuthCode(string emailAccount)
+        public virtual async Task<string> RequestAuthCode()
         {
             string authCode = null;
-            var uriBuilder = BuildUri(emailAccount);
+            var uriBuilder = BuildUri();
             var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri("http://localhost"));
 
             if (webAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
@@ -68,25 +68,6 @@ namespace App.Services.OAuth
             }
 
             return authCode;
-        }
-
-        public async Task<bool> ValidateAccount(string emailAccount)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                try
-                {
-                    var uriBuilder = BuildUri(emailAccount);
-                    var response = await httpClient.GetAsync(uriBuilder.Uri);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception ex)
-                {
-                    
-                }
-            }
-
-            return false;
         }
     }
 }

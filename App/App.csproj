@@ -99,10 +99,16 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Assert.cs" />
     <Compile Include="Utils\CollectionExtensions.cs" />
     <Compile Include="Utils\UriBuilderExtensions.cs" />
+    <Compile Include="ViewModels\Category.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Subscrition.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Services\OAuth\FeedlyOAuth2Authenticator.cs" />
     <Compile Include="Services\OAuth\OAuth2SignInMessage.cs" />
@@ -133,6 +139,10 @@
     <Page Include="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

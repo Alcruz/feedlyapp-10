@@ -4,21 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="using:App.Pages"
+    xmlns:viewModels="using:App.ViewModels"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=SignInViewModel}">
 
     <Page.Resources>
         <Style TargetType="Control" x:Name="FormControlStyle">
-            <Setter Property="Margin" Value="0,20,20,0" />
             <Setter Property="FontSize" Value="24" />
-        </Style>
-
-        <Style BasedOn="{StaticResource FormControlStyle}" TargetType="TextBox" x:Name="TextBoxStyle">
-            <Setter Property="Padding" Value="10"/>
-        </Style>
-        <Style BasedOn="{StaticResource FormControlStyle}" TargetType="PasswordBox" x:Name="PasswordBoxStyle">
-            <Setter Property="Padding" Value="10"/>
-
         </Style>
 
         <Style BasedOn="{StaticResource FormControlStyle}" TargetType="Button">
@@ -34,8 +27,7 @@
         <ProgressBar Visibility="{Binding IsLoading, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}" 
                      IsIndeterminate="True" />
         <StackPanel Grid.Row="1" VerticalAlignment="Center" Width="720">
-            <TextBox Text="{Binding EmailAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Email Account" Style="{StaticResource TextBoxStyle}" />
-            <Button HorizontalAlignment="Right" Content="Sign In" Command="{Binding SignInCommand}" />
+            <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="Sign In" Command="{Binding SignInCommand}" />
         </StackPanel>
     </Grid>
 </Page>

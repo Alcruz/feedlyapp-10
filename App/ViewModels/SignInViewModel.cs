@@ -20,15 +20,6 @@ namespace App.ViewModels
             set { Set(ref _isLoading, value); }
         }
 
-        public string EmailAccount
-        {
-            get { return _emailAccount; }
-            set
-            {
-                Set(ref _emailAccount, value);
-                SignInCommand.RaiseCanExecuteChanged();
-            }
-        }
         public string EmailAccountError { get; set; }
         public RelayCommand SignInCommand { get; set; }
 
@@ -39,19 +30,11 @@ namespace App.ViewModels
             SignInCommand = new RelayCommand(async () => await SignIn(), IsSignInCommandEnabled);
         }
 
-        private bool IsSignInCommandEnabled() => !string.IsNullOrEmpty(EmailAccount);
+        private bool IsSignInCommandEnabled() => !IsLoading;
 
         public async Task SignIn()
         {
-            Assert.IsNotNull(EmailAccount, nameof(EmailAccount));
-            var doesAccountExist = await _feedlyOAuth2Authenticator.ValidateAccount(EmailAccount);
-            if (!doesAccountExist)
-            {
-                EmailAccountError = "Invalid account";
-                return;
-            }
-
-            var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode(EmailAccount);
+            var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
             if (authCode == null)
             {
                 EmailAccountError = "Invalid credentials";
@@ -59,8 +42,10 @@ namespace App.ViewModels
             }
 
             IsLoading = true;
-            var authToken = await _feedlyOAuth2Authenticator.Authenticate(EmailAccount, authCode);
+            var authToken = await _feedlyOAuth2Authenticator.Authenticate(authCode);
             IsLoading = false;
+
+            _navigationService.NavigateTo("main-page", authToken);
         }
 
     }

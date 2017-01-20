@@ -7,15 +7,18 @@ namespace App.ViewModels
     public class ViewModelLocator
     {
         public static SignInViewModel SignInViewModel => SimpleIoc.Default.GetInstance<SignInViewModel>();
+        public static MainViewModel MainViewModel => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         static ViewModelLocator()
         {
             SimpleIoc.Default.Register<SignInViewModel>();
+            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<DialogService>();
             SimpleIoc.Default.Register<INavigationService>(() =>
             {
                 var navService = new NavigationService();
-                navService.Configure(nameof(Pages.LoginPage), typeof(Pages.LoginPage));
+                navService.Configure("login-page", typeof(Pages.LoginPage));
+                navService.Configure("main-page", typeof(Pages.MainPage));
                 return navService;
             });
             SimpleIoc.Default.Register<FeedlyOAuth2Authenticator>();
