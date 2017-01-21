@@ -1,4 +1,4 @@
-namespace App.ViewModels
+namespace App.Dashboard
 {
     public class Category
     {

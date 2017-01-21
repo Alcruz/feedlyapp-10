@@ -1,4 +1,5 @@
-﻿using App.Services.OAuth;
+﻿using App.Dashboard;
+using App.Services.OAuth;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 
@@ -18,7 +19,7 @@ namespace App.ViewModels
             {
                 var navService = new NavigationService();
                 navService.Configure("login-page", typeof(Pages.LoginPage));
-                navService.Configure("main-page", typeof(Pages.MainPage));
+                navService.Configure("main-page", typeof(MainPage));
                 return navService;
             });
             SimpleIoc.Default.Register<FeedlyOAuth2Authenticator>();

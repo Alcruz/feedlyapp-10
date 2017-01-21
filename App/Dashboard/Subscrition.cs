@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace App.ViewModels
+namespace App.Dashboard
 {
     public class Subscrition
     {

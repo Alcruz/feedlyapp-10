@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using App.Services.OAuth;
-using App.Utils;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
@@ -11,7 +10,6 @@ namespace App.ViewModels
     {
         private readonly FeedlyOAuth2Authenticator _feedlyOAuth2Authenticator;
         private readonly INavigationService _navigationService;
-        private string _emailAccount;
         private bool _isLoading;
 
         public bool IsLoading
@@ -20,7 +18,6 @@ namespace App.ViewModels
             set { Set(ref _isLoading, value); }
         }
 
-        public string EmailAccountError { get; set; }
         public RelayCommand SignInCommand { get; set; }
 
         public SignInViewModel(FeedlyOAuth2Authenticator feedlyOAuth2Authenticator, INavigationService navigationService)
@@ -37,7 +34,6 @@ namespace App.ViewModels
             var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
             if (authCode == null)
             {
-                EmailAccountError = "Invalid credentials";
                 return;
             }
 
