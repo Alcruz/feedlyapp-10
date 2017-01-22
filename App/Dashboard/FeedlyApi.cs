@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using App.Services.OAuth;
@@ -35,7 +36,18 @@ namespace App.Dashboard
 
         }
 
-
+        public async Task<List<Category>> GetCategories()
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, new Uri(BaseUri + "/categories"));
+                request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
+                var response = await httpClient.SendRequestAsync(request);
+                var categoriesJson = await response.Content.ReadAsStringAsync();
+                var categories = JsonDeserialize<List<Category>>(categoriesJson);
+                return categories;
+            }
+        }
 
         public async Task<List<Subscrition>> GetSubscrition()
         {

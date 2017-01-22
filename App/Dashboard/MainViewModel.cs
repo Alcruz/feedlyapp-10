@@ -12,19 +12,19 @@ namespace App.Dashboard
         private StreamDto _stream;
         public StreamDto Stream { get { return _stream;  } set { Set(ref _stream, value); } }
 
-        private List<Subscrition> _subscription;
-        private Subscrition _selected;
+        private List<Category> _categories;
+        private Category _selected;
         private FeedlyApi _feedlyApi;
 
-        public List<Subscrition> Subscritions {
-            get { return _subscription; }
+        public List<Category> Categories {
+            get { return _categories; }
             set
             {
-                Set(ref _subscription, value);
+                Set(ref _categories, value);
             }
         }
 
-        public Subscrition SelectedSubscrition
+        public Category SelectedCategory
         {
             get { return _selected; }
             set { Set(ref _selected, value); }
@@ -39,14 +39,15 @@ namespace App.Dashboard
 
         private async Task FetchFeed()
         {
-            Stream = await _feedlyApi.GetContent(SelectedSubscrition.Id);
+            Stream = await _feedlyApi.GetContent(SelectedCategory.Id);
         }
 
         public async Task OnStart(OAuthToken oAuthToken)
         {
             _feedlyApi = new FeedlyApi(oAuthToken);
+            var categories = await _feedlyApi.GetCategories();
             var subscription = await _feedlyApi.GetSubscrition();
-            Subscritions = subscription;
+            Categories = categories;
         }
     }
 }

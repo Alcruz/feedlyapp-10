@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\HtmlStripperConverter.cs" />
     <Compile Include="Converters\ValueWhenConverter.cs" />
     <Compile Include="Dashboard\StreamDto.cs" />
     <Compile Include="Dashboard\FeedlyApi.cs" />

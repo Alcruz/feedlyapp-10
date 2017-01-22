@@ -14,14 +14,21 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Subscritions}"
-                  SelectedItem="{Binding SelectedSubscrition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  DisplayMemberPath="Title">
+        <ListView ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <interactivity:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="SelectionChanged">
                     <core:InvokeCommandAction Command="{Binding FetchFeedCommand}" />
                 </core:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleSwitch Margin="10,0" Style="{StaticResource CollapseToggleSwitchTemplate}" />
+                        <TextBlock Text="{Binding Label}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -41,10 +48,11 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Image Width="200" Height="200" Margin="10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Visual.Url}" />
-                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
-                             <RichTextBlock Grid.Row="1" Grid.Column="1" 
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" 
                                         TextTrimming="WordEllipsis" 
-                                        TextWrapping="WrapWholeWords" />
+                                        TextWrapping="WrapWholeWords"
+                                        Text="{Binding Summary.Content, Converter={StaticResource HtmlStripperConverter}}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
