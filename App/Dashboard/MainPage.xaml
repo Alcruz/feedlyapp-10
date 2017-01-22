@@ -23,10 +23,25 @@
             </interactivity:Interaction.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleSwitch Margin="10,0" Style="{StaticResource CollapseToggleSwitchTemplate}" />
-                        <TextBlock Text="{Binding Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleSwitch IsOn="{Binding IsCollapsed, Mode=TwoWay}" 
+                                      Margin="10" Style="{StaticResource CollapseToggleSwitchTemplate}">
+                        </ToggleSwitch>
+                        <TextBlock Margin="0,10" Grid.Column="1" Grid.Row="0" Text="{Binding Category.Label}" />
+                        <ListView Grid.Column="1" Grid.Row="1" 
+                                  Visibility="{Binding IsCollapsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding Subscriptions}"
+                                  DisplayMemberPath="Title"/>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
