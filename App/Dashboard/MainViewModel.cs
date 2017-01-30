@@ -6,10 +6,11 @@ using System.Windows.Input;
 using App.Services.OAuth;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 
 namespace App.Dashboard
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : PageViewModel
     {
         private StreamDto _stream;
         public StreamDto Stream { get { return _stream;  } set { Set(ref _stream, value); } }
@@ -34,7 +35,7 @@ namespace App.Dashboard
 
         public ICommand FetchFeedCommand { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(INavigationService navigationService): base(navigationService)
         {
             FetchFeedCommand = new RelayCommand(async () => await FetchFeed());
         }
@@ -44,8 +45,9 @@ namespace App.Dashboard
             Stream = await _feedlyApi.GetContent(SelectedCategory.Category.Id);
         }
 
-        public async Task OnStart(OAuthToken oAuthToken)
+        public override async Task OnNavigatedTo(object param)
         {
+            var oAuthToken = param as OAuthToken;
             _feedlyApi = new FeedlyApi(oAuthToken);
             var categories = await _feedlyApi.GetCategories();
             var subscriptions = await _feedlyApi.GetSubscrition();
