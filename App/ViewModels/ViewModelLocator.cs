@@ -1,4 +1,5 @@
-﻿using App.Dashboard;
+﻿using App.Auth;
+using App.Dashboard;
 using App.Services.OAuth;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
@@ -18,7 +19,7 @@ namespace App.ViewModels
             SimpleIoc.Default.Register<INavigationService>(() =>
             {
                 var navService = new NavigationService();
-                navService.Configure("login-page", typeof(Pages.LoginPage));
+                navService.Configure("login-page", typeof(LoginPage));
                 navService.Configure("main-page", typeof(MainPage));
                 return navService;
             });

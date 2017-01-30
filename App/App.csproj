@@ -100,7 +100,7 @@
     <Compile Include="Dashboard\CategoryViewModel.cs" />
     <Compile Include="Dashboard\StreamDto.cs" />
     <Compile Include="Dashboard\FeedlyApi.cs" />
-    <Compile Include="Pages\LoginPage.xaml.cs">
+    <Compile Include="Auth\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\MainPage.xaml.cs">
@@ -117,7 +117,7 @@
     <Compile Include="Services\OAuth\FeedlyOAuth2Authenticator.cs" />
     <Compile Include="Services\OAuth\OAuth2SignInMessage.cs" />
     <Compile Include="Services\OAuth\OAuthToken.cs" />
-    <Compile Include="ViewModels\SignInViewModel.cs" />
+    <Compile Include="Auth\SignInViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -140,7 +140,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Pages\LoginPage.xaml">
+    <Page Include="Auth\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -153,6 +153,9 @@
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

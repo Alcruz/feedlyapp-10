@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 
-namespace App.ViewModels
+namespace App.Auth
 {
     public class SignInViewModel : ViewModelBase
     {
