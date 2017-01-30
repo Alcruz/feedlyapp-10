@@ -19,7 +19,7 @@ namespace App.ViewModels
             SimpleIoc.Default.Register<INavigationService>(() =>
             {
                 var navService = new NavigationService();
-                navService.Configure("login-page", typeof(LoginPage));
+                navService.Configure("login-page", typeof(SignInPage));
                 navService.Configure("main-page", typeof(MainPage));
                 return navService;
             });
