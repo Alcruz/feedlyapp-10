@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using App.Services.OAuth;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using Windows.ApplicationModel.Core;
+using App.Services;
 
 namespace App.Auth
 {
@@ -17,7 +17,7 @@ namespace App.Auth
             set { Set(ref _isLoading, value); }
         }
 
-        public SignInViewModel(FeedlyOAuth2Authenticator feedlyOAuth2Authenticator, INavigationService navigationService) : base(navigationService)
+        public SignInViewModel(FeedlyOAuth2Authenticator feedlyOAuth2Authenticator, INavigationService navigationService, Application application) : base(navigationService, application)
         {
             _feedlyOAuth2Authenticator = feedlyOAuth2Authenticator;
         }
@@ -27,7 +27,7 @@ namespace App.Auth
             var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
             if (authCode == null)
             {
-                return;
+                Application.TerminateApp();
             }
 
             IsLoading = true;

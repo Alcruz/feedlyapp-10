@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
 
@@ -11,10 +8,12 @@ namespace App
     public abstract class PageViewModel : ViewModelBase
     {
         public INavigationService NavigationService { get; }
+        public Application Application { get; }
 
-        protected PageViewModel(INavigationService navigationService)
+        protected PageViewModel(INavigationService navigationService, Application application)
         {
             NavigationService = navigationService;
+            Application = application;
         }
 
         public virtual Task OnNavigatedTo(object parameter)

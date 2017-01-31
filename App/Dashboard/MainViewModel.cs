@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using App.Services;
 using App.Services.OAuth;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -35,7 +36,7 @@ namespace App.Dashboard
 
         public ICommand FetchFeedCommand { get; set; }
 
-        public MainViewModel(INavigationService navigationService): base(navigationService)
+        public MainViewModel(INavigationService navigationService, Application application): base(navigationService, application)
         {
             FetchFeedCommand = new RelayCommand(async () => await FetchFeed());
         }
