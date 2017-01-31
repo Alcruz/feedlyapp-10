@@ -107,7 +107,7 @@
     <Compile Include="Dashboard\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PageViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Assert.cs" />
     <Compile Include="Utils\CollectionExtensions.cs" />
