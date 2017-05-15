@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feedly10", "Feedly10\Feedly10.csproj", "{82E9AEDC-6480-44DE-B377-7516D6173067}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeViewControl", "Controls\TreeViewControl.vcxproj", "{003839EF-FC81-523C-90E7-4C549425E4EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{385E5FAD-57BE-46AA-9E1E-DF40752B905F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -33,8 +37,23 @@ Global
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.ActiveCfg = Release|x86
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.Build.0 = Release|x86
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.Deploy.0 = Release|x86
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|ARM.ActiveCfg = Debug|ARM
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|ARM.Build.0 = Debug|ARM
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|x64.ActiveCfg = Debug|x64
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|x64.Build.0 = Debug|x64
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|x86.ActiveCfg = Debug|Win32
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Debug|x86.Build.0 = Debug|Win32
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|ARM.ActiveCfg = Release|ARM
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|ARM.Build.0 = Release|ARM
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|x64.ActiveCfg = Release|x64
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|x64.Build.0 = Release|x64
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|x86.ActiveCfg = Release|Win32
+		{003839EF-FC81-523C-90E7-4C549425E4EB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{003839EF-FC81-523C-90E7-4C549425E4EB} = {385E5FAD-57BE-46AA-9E1E-DF40752B905F}
 	EndGlobalSection
 EndGlobal
