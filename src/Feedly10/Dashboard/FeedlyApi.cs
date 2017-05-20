@@ -41,7 +41,7 @@ namespace App.Dashboard
 				return categories;
 			}
 		}
-		public async Task<List<Subscrition>> GetSubscrition()
+		public async Task<List<Dtos.Subscription>> GetSubscrition()
 		{
 			using (var httpClient = new HttpClient())
 			{
@@ -49,7 +49,7 @@ namespace App.Dashboard
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var subscriptionJson = await response.Content.ReadAsStringAsync();
-				var subscrition = JsonDeserialize<List<Subscrition>>(subscriptionJson);
+				var subscrition = JsonDeserialize<List<Dtos.Subscription>>(subscriptionJson);
 				return subscrition;
 			}
 		}

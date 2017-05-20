@@ -7,45 +7,73 @@
 	xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:app="using:App"
+	xmlns:controls="using:App.Controls"
+	xmlns:treeviewcontrol="using:TreeViewControl"
+	xmlns:converters="using:App.Converters"
 	DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
 	mc:Ignorable="d">
+
+	<app:BasePage.Resources>
+
+		<converters:TypeToBoolConverter x:Key="TypeToBoolConverter" />
+
+
+		<Style x:Key="ToogleIcon"  TargetType="FontIcon">
+			<Setter Property="FontSize" Value="10" />
+			<Setter Property="Margin" Value="10,0" />
+		</Style>
+
+		<DataTemplate x:Key="CategoryTemplate" x:DataType="treeviewcontrol:TreeNode">
+			<ContentControl>
+				<interactivity:Interaction.Behaviors>
+					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Dashboard.Category'}" Value="True">
+						<core:ChangePropertyAction PropertyName="Content">
+							<core:ChangePropertyAction.Value>
+								<Grid Margin="{Binding Depth, Converter={StaticResource IntegerToIdentationConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<FontIcon Style="{StaticResource ToogleIcon}" Glyph="&#xE011;" Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"/>
+									<FontIcon Style="{StaticResource ToogleIcon}" Glyph="&#xE013;" Visibility="{Binding IsExpanded, Converter={StaticResource InvertedVisibilityConverter}}" />
+									<TextBlock Text="{Binding Data.Label}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
+								</Grid>
+							</core:ChangePropertyAction.Value>
+						</core:ChangePropertyAction>
+					</core:DataTriggerBehavior>
+
+					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Dashboard.Subscription'}" Value="True">
+						<core:ChangePropertyAction PropertyName="Content">
+							<core:ChangePropertyAction.Value>
+								<Grid Margin="{Binding Depth, Converter={StaticResource IntegerToIdentationConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<Image Stretch="UniformToFill" Margin="10" Width="20" Height="20" Source="{Binding Data.Favicon, Mode=TwoWay}" />
+									<TextBlock Text="{Binding Data.Title}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
+								</Grid>
+							</core:ChangePropertyAction.Value>
+						</core:ChangePropertyAction>
+					</core:DataTriggerBehavior>
+				</interactivity:Interaction.Behaviors>
+			</ContentControl>
+		</DataTemplate>
+
+	</app:BasePage.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
-		<ListView ItemsSource="{Binding Categories}"
-				  SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+		<treeviewcontrol:TreeView IsItemClickEnabled="True" controls:TreeViewExts.RootNodes="{Binding CategoryTreeNodes}" ItemTemplate="{StaticResource CategoryTemplate}">
 			<interactivity:Interaction.Behaviors>
 				<core:EventTriggerBehavior EventName="SelectionChanged">
 					<core:InvokeCommandAction Command="{Binding FetchFeedCommand}" />
 				</core:EventTriggerBehavior>
 			</interactivity:Interaction.Behaviors>
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<ToggleSwitch IsOn="{Binding IsCollapsed, Mode=TwoWay}" 
-									  Margin="10" Style="{StaticResource CollapseToggleSwitchTemplate}">
-						</ToggleSwitch>
-						<TextBlock Margin="0,10" Grid.Column="1" Grid.Row="0" Text="{Binding Category.Label}" />
-						<ListView Grid.Column="1" Grid.Row="1" 
-								  Visibility="{Binding IsCollapsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}"
-								  HorizontalAlignment="Stretch"
-								  ItemsSource="{Binding Subscriptions}"
-								  DisplayMemberPath="Title"/>
-					</Grid>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+		</treeviewcontrol:TreeView>
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -65,6 +93,7 @@
 							</Grid.ColumnDefinitions>
 							<Image Width="200" Height="200" Margin="10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Visual.Url}" />
 							<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
+
 							<TextBlock Grid.Row="1" Grid.Column="1" 
 										TextTrimming="WordEllipsis" 
 										TextWrapping="WrapWholeWords"

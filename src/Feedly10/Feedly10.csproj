@@ -100,10 +100,11 @@
     </Compile>
     <Compile Include="Auth\SignInViewModel.cs" />
     <Compile Include="BasePage.cs" />
+    <Compile Include="Controls\TreeViewExts.cs" />
     <Compile Include="Converters\HtmlStripperConverter.cs" />
+    <Compile Include="Converters\TypeToBoolConverter.cs" />
     <Compile Include="Converters\ValueWhenConverter.cs" />
     <Compile Include="Dashboard\Category.cs" />
-    <Compile Include="Dashboard\CategoryViewModel.cs" />
     <Compile Include="Dashboard\FeedlyApi.cs" />
     <Compile Include="Dashboard\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -161,6 +162,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>1.4.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.0</Version>

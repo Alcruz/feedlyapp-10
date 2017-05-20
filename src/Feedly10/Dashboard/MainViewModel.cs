@@ -8,59 +8,63 @@ using App.Services.OAuth;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using TreeViewControl;
 
 namespace App.Dashboard
 {
-    public class MainViewModel : PageViewModel
-    {
-        private StreamDto _stream;
-        public StreamDto Stream { get { return _stream;  } set { Set(ref _stream, value); } }
+	public class MainViewModel : PageViewModel
+	{
+		private StreamDto _stream;
+		private FeedlyApi _feedlyApi;
+		private List<TreeNode> categoryTreeNodes;
 
-        private List<CategoryViewModel> _categories;
-        private CategoryViewModel _selected;
-        private FeedlyApi _feedlyApi;
+		public List<TreeNode> CategoryTreeNodes
+		{
+			get
+			{
+				return this.categoryTreeNodes;
+			}
+			set
+			{
+				Set(ref this.categoryTreeNodes, value);
+			}
+		}
 
-        public List<CategoryViewModel> Categories {
-            get { return _categories; }
-            set
-            {
-                Set(ref _categories, value);
-            }
-        }
+		public StreamDto Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
-        public CategoryViewModel SelectedCategory
-        {
-            get { return _selected; }
-            set { Set(ref _selected, value); }
-        }
+		public ICommand FetchFeedCommand { get; set; }
 
-        public ICommand FetchFeedCommand { get; set; }
+		public MainViewModel(INavigationService navigationService) : base(navigationService)
+		{
+			FetchFeedCommand = new RelayCommand(() => { });
+		}
 
-        public MainViewModel(INavigationService navigationService): base(navigationService)
-        {
-            FetchFeedCommand = new RelayCommand(async () => await FetchFeed());
-        }
+		public override async Task OnNavigatedTo(object param)
+		{
+			var oAuthToken = param as OAuthToken;
+			_feedlyApi = new FeedlyApi(oAuthToken);
+			var subscriptions = await _feedlyApi.GetSubscrition();
 
-        private async Task FetchFeed()
-        {
-            Stream = await _feedlyApi.GetContent(SelectedCategory.Category.Id);
-        }
+			var treeNodes = subscriptions.SelectMany(subscrition => subscrition.Categories).Distinct().Select(category =>
+			new TreeNode
+			{
+				Data = category,
+				IsExpanded = true
+			}).ToList();
 
-        public override async Task OnNavigatedTo(object param)
-        {
-            var oAuthToken = param as OAuthToken;
-            _feedlyApi = new FeedlyApi(oAuthToken);
-            var categories = await _feedlyApi.GetCategories();
-            var subscriptions = await _feedlyApi.GetSubscrition();
+			foreach (var nextSubscription in subscriptions)
+			{
+				foreach (var nextCategory in nextSubscription.Categories)
+				{
+					var targetTreeNodes = treeNodes.Where(treeNode => treeNode.Data.Equals(nextCategory));
+					foreach (var nextTreeNode in targetTreeNodes)
+					{
+						nextTreeNode.Add(new TreeNode { Data = new Subscription(nextSubscription) });
+					}
+				}
+			}
 
-            Categories = categories.Select(category =>
-            {
-                var subscriptionPerCategory =
-                    subscriptions.Where(
-                        subscription =>
-                            subscription.Categories.Any(cat => string.Equals(cat.Id, category.Id, StringComparison.Ordinal))).ToList();
-                return new CategoryViewModel(category, subscriptionPerCategory);
-            }).ToList();
-        }
-    }
+			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+		}
+	}
 }
