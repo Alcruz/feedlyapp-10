@@ -34,7 +34,7 @@ namespace App.Services.OAuth
 				{
 					["code"] = authCode,
 					["client_id"] = "sandbox",
-					["client_secret"] = "PYZR7RLWRM2JW0ESBY2E",
+					["client_secret"] = "JGC5BYXNVW9NXAK48KH9",
 					["redirect_uri"] = "http://localhost",
 					["grant_type"] = "authorization_code"
 				};

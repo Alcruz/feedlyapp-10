@@ -3,6 +3,7 @@ using App.Services.OAuth;
 using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel.Core;
 using App.Services;
+using System;
 
 namespace App.Auth
 {
@@ -24,17 +25,37 @@ namespace App.Auth
 
 		public override async Task OnNavigatedTo(object parameter)
 		{
-			var authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
+
+			var authCode = GetAuthCodeFromLocalStore();
+
+			if (authCode == null)
+			{
+				authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
+			}
+
 			if (authCode == null)
 			{
 				CoreApplication.Exit();
 			}
 
 			IsLoading = true;
+			SaveAuthCodeToLocalStore(authCode);
 			var authToken = await _feedlyOAuth2Authenticator.Authenticate(authCode);
 			IsLoading = false;
 
 			NavigationService.NavigateTo("main-page", authToken);
+		}
+
+		private string GetAuthCodeFromLocalStore()
+		{
+			Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+			return (string) localSettings.Values["authCode"];
+		}
+
+		private void SaveAuthCodeToLocalStore(string authCode)
+		{
+			Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+			localSettings.Values["authCode"] = authCode;
 		}
 	}
 }
