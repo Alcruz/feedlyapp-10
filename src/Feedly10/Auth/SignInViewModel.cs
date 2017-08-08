@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel.Core;
 using App.Services;
 using System;
+using App.Utils;
 
 namespace App.Auth
 {
@@ -25,37 +26,84 @@ namespace App.Auth
 
 		public override async Task OnNavigatedTo(object parameter)
 		{
+#if DEBUG
+			await Windows.Storage.ApplicationData.Current.ClearAsync();
+#endif
+			var authTokenPair = GetAuthTokenFromLocalStore();
 
-			var authCode = GetAuthCodeFromLocalStore();
-
-			if (authCode == null)
+			if (authTokenPair.result && !authTokenPair.token.HasExpire())
 			{
-				authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
+				NavigationService.NavigateTo("main-page", authTokenPair.token);
+				return;
 			}
+
+			string authCode = await _feedlyOAuth2Authenticator.RequestAuthCode();
 
 			if (authCode == null)
 			{
 				CoreApplication.Exit();
+				return;
 			}
 
 			IsLoading = true;
-			SaveAuthCodeToLocalStore(authCode);
+
+
 			var authToken = await _feedlyOAuth2Authenticator.Authenticate(authCode);
+
+			if (authToken == null)
+			{
+				CoreApplication.Exit();
+				return;
+			}
+
+			SaveAuthCodeToLocalStore(authToken);
+
+
 			IsLoading = false;
 
 			NavigationService.NavigateTo("main-page", authToken);
 		}
 
-		private string GetAuthCodeFromLocalStore()
+		private (bool result, OAuthToken token) GetAuthTokenFromLocalStore()
 		{
 			Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-			return (string) localSettings.Values["authCode"];
+			var composite = (Windows.Storage.ApplicationDataCompositeValue) localSettings.Values["AuthToken"];
+
+			if (composite == null)
+			{
+				return (result: false, token: null);
+			}
+
+			return (
+				result: true,
+				token: new OAuthToken
+				{
+					AccessToken = (string)composite["AccessToken"],
+					ExpiresIn = (int)composite["ExpiresIn"],
+					Id = (string)composite["Id"],
+					Plan = (string)composite["Plan"],
+					RefreshToken = (string)composite["RefreshToken"],
+					State = (string)composite["State"],
+					TokenType = (string)composite["TokenType"],
+					CreatedAt = (DateTimeOffset)composite["CreatedAt"]
+				}
+			);
 		}
 
-		private void SaveAuthCodeToLocalStore(string authCode)
+		private void SaveAuthCodeToLocalStore(OAuthToken authToken)
 		{
-			Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-			localSettings.Values["authCode"] = authCode;
+			Assert.IsNotNull(authToken, "AuthToken");
+			var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+			var composite = new Windows.Storage.ApplicationDataCompositeValue();
+			composite["AccessToken"] = authToken.AccessToken;
+			composite["ExpiresIn"] = authToken.ExpiresIn;
+			composite["Id"] = authToken.Id;
+			composite["Plan"] = authToken.Plan;
+			composite["RefreshToken"] = authToken.RefreshToken;
+			composite["State"] = authToken.State?? string.Empty;
+			composite["TokenType"] = authToken.TokenType;
+			composite["CreatedAt"] = authToken.CreatedAt;
+			localSettings.Values["AuthToken"] = composite;
 		}
 	}
 }

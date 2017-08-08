@@ -10,16 +10,25 @@ using Newtonsoft.Json.Serialization;
 
 namespace App.Services.OAuth
 {
+	public static class FeedlyRegistry
+	{
+		public static string BaseUrl = "https://sandbox7.feedly.com";
+
+		public static string AuthCodeUrl = $"{BaseUrl}/v3/auth/auth";
+		public static string RedirectAuthUrl = $"http://localhost";
+		public static string AuthTokenUrl = $"{BaseUrl}/v3/auth/token";
+	}
+
 	public class FeedlyOAuth2Authenticator
 	{
 		private UriBuilder BuildUri()
 		{
-			var uriBuilder = new UriBuilder("https://sandbox.feedly.com/v3/auth/auth");
+			var uriBuilder = new UriBuilder(FeedlyRegistry.AuthCodeUrl);
 			var queryString = new List<KeyValuePair<string, string>>
 			{
 				{"response_type", "code"},
 				{"client_id", "sandbox"},
-				{"redirect_uri", "http://localhost"},
+				{"redirect_uri", FeedlyRegistry.RedirectAuthUrl},
 				{"scope", "https://cloud.feedly.com/subscriptions"}
 			};
 
@@ -34,8 +43,8 @@ namespace App.Services.OAuth
 				{
 					["code"] = authCode,
 					["client_id"] = "sandbox",
-					["client_secret"] = "JGC5BYXNVW9NXAK48KH9",
-					["redirect_uri"] = "http://localhost",
+					["client_secret"] = "sTdnABpJDCmpurfU",
+					["redirect_uri"] = FeedlyRegistry.RedirectAuthUrl,
 					["grant_type"] = "authorization_code"
 				};
 				var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings
@@ -44,14 +53,16 @@ namespace App.Services.OAuth
 				});
 
 				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await httpClient.PostAsync("https://sandbox.feedly.com/v3/auth/token", content);
+				var response = await httpClient.PostAsync(FeedlyRegistry.AuthCodeUrl, content);
 				if (!response.IsSuccessStatusCode) return null;
 
 				var authTokenJson = await response.Content.ReadAsStringAsync();
-				return JsonConvert.DeserializeObject<OAuthToken>(authTokenJson, new JsonSerializerSettings
+				var authToken = JsonConvert.DeserializeObject<OAuthToken>(authTokenJson, new JsonSerializerSettings
 				{
 					ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
 				});
+				authToken.CreatedAt = new DateTimeOffset(response.Headers.Date?.UtcTicks ?? DateTimeOffset.UtcNow.UtcTicks, TimeSpan.Zero);
+				return authToken;
 			}
 		}
 
@@ -59,7 +70,7 @@ namespace App.Services.OAuth
 		{
 			string authCode = null;
 			var uriBuilder = BuildUri();
-			var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri("http://localhost"));
+			var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri(FeedlyRegistry.RedirectAuthUrl));
 
 			if (webAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
 			{

@@ -65,6 +65,13 @@ namespace App.Dashboard
 			}
 
 			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			await FetchAllFeeds(oAuthToken);
+		}
+
+		private async Task FetchAllFeeds(OAuthToken oAuthToken)
+		{
+			var stream = await _feedlyApi.GetContent($"user/{oAuthToken.AccessToken}/category/global.all");
+		
 		}
 	}
 }
