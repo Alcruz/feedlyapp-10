@@ -95,7 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Auth\FeedlyRegistry.cs" />
+    <Compile Include="Feedly\FeedlyRegistry.cs" />
     <Compile Include="Auth\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
@@ -117,8 +117,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Auth\FeedlyOAuth2Authenticator.cs" />
-    <Compile Include="Auth\OAuthToken.cs" />
+    <Compile Include="Feedly\FeedlyOAuth2Authenticator.cs" />
+    <Compile Include="Feedly\OAuthToken.cs" />
     <Compile Include="Utils\Assert.cs" />
     <Compile Include="Utils\CollectionExtensions.cs" />
     <Compile Include="Utils\UriBuilderExtensions.cs" />
@@ -183,7 +183,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controls\TreeViewControl.vcxproj">
+    <ProjectReference Include="..\Control\TreeViewControl.vcxproj">
       <Project>{003839ef-fc81-523c-90e7-4c549425e4eb}</Project>
       <Name>TreeViewControl</Name>
     </ProjectReference>
