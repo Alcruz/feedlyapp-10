@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using App.Services;
-using App.Services.OAuth;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
@@ -14,8 +12,8 @@ namespace App.Dashboard
 {
 	public class MainViewModel : PageViewModel
 	{
-		private StreamDto _stream;
-		private FeedlyApi _feedlyApi;
+		private Feedly.Stream _stream;
+		private Feedly.FeedlyApi _feedlyApi;
 		private List<TreeNode> categoryTreeNodes;
 
 		public List<TreeNode> CategoryTreeNodes
@@ -30,19 +28,19 @@ namespace App.Dashboard
 			}
 		}
 
-		public StreamDto Stream { get { return _stream; } set { Set(ref _stream, value); } }
+		public Feedly.Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
 		public ICommand FetchFeedCommand { get; set; }
 
 		public MainViewModel(INavigationService navigationService) : base(navigationService)
 		{
-			FetchFeedCommand = new RelayCommand(() => { });
+			FetchFeedCommand = new RelayCommand<TreeNode>(async treeNode => await FetchFeed(treeNode.Data as Subscription));
 		}
 
 		public override async Task OnNavigatedTo(object param)
 		{
-			var oAuthToken = param as OAuthToken;
-			_feedlyApi = new FeedlyApi(oAuthToken);
+			var oAuthToken = param as Feedly.OAuthToken;
+			_feedlyApi = new Feedly.FeedlyApi(oAuthToken);
 			var subscriptions = await _feedlyApi.GetSubscrition();
 
 			var treeNodes = subscriptions.SelectMany(subscrition => subscrition.Categories).Distinct().Select(category =>
@@ -64,14 +62,24 @@ namespace App.Dashboard
 				}
 			}
 
-			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Feedly.Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
 			await FetchAllFeeds(oAuthToken);
 		}
+		
+		private async Task FetchFeed(Subscription data)
+		{
+			if (data == null)
+			{
+				return;
+			}
 
-		private async Task FetchAllFeeds(OAuthToken oAuthToken)
+			var stream = await _feedlyApi.GetContent(Uri.EscapeDataString(data.Id));
+			Stream = stream;
+		}
+
+		private async Task FetchAllFeeds(Feedly.OAuthToken oAuthToken)
 		{
 			var stream = await _feedlyApi.GetContent($"user/{oAuthToken.AccessToken}/category/global.all");
-		
 		}
 	}
 }

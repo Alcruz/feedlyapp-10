@@ -1,4 +1,4 @@
-﻿namespace App.Services.OAuth
+﻿namespace App.Feedly
 {
 	public static class FeedlyRegistry
 	{

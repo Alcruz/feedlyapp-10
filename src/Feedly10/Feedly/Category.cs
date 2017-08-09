@@ -1,4 +1,4 @@
-namespace App.Dashboard
+namespace App.Feedly
 {
 	public class Category
 	{

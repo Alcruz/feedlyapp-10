@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
-using App.Services.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace App.Dashboard
+namespace App.Feedly
 {
 	public class FeedlyApi
 	{
@@ -40,7 +38,7 @@ namespace App.Dashboard
 				return categories;
 			}
 		}
-		public async Task<List<Dtos.Subscription>> GetSubscrition()
+		public async Task<List<Subscription>> GetSubscrition()
 		{
 			using (var httpClient = new HttpClient())
 			{
@@ -48,11 +46,11 @@ namespace App.Dashboard
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var subscriptionJson = await response.Content.ReadAsStringAsync();
-				var subscrition = JsonDeserialize<List<Dtos.Subscription>>(subscriptionJson);
+				var subscrition = JsonDeserialize<List<Subscription>>(subscriptionJson);
 				return subscrition;
 			}
 		}
-		public async Task<StreamDto> GetContent(string streamId)
+		public async Task<Stream> GetContent(string streamId)
 		{
 			using (var httpClient = new HttpClient())
 			{
@@ -60,7 +58,7 @@ namespace App.Dashboard
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var contentStreamJson = await response.Content.ReadAsStringAsync();
-				var contentStream = JsonDeserialize<StreamDto>(contentStreamJson);
+				var contentStream = JsonDeserialize<Stream>(contentStreamJson);
 				return contentStream;
 			}
 		}

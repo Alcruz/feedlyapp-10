@@ -26,7 +26,7 @@
 		<DataTemplate x:Key="CategoryTemplate" x:DataType="treeviewcontrol:TreeNode">
 			<ContentControl>
 				<interactivity:Interaction.Behaviors>
-					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Dashboard.Category'}" Value="True">
+					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Feedly.Category'}" Value="True">
 						<core:ChangePropertyAction PropertyName="Content">
 							<core:ChangePropertyAction.Value>
 								<Grid Margin="{Binding Depth, Converter={StaticResource IntegerToIdentationConverter}}">
@@ -67,10 +67,10 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
-		<treeviewcontrol:TreeView IsItemClickEnabled="True" controls:TreeViewExts.RootNodes="{Binding CategoryTreeNodes}" ItemTemplate="{StaticResource CategoryTemplate}">
+		<treeviewcontrol:TreeView Name="TreeView" IsItemClickEnabled="True" controls:TreeViewExts.RootNodes="{Binding CategoryTreeNodes}" ItemTemplate="{StaticResource CategoryTemplate}">
 			<interactivity:Interaction.Behaviors>
 				<core:EventTriggerBehavior EventName="SelectionChanged">
-					<core:InvokeCommandAction Command="{Binding FetchFeedCommand}" />
+					<core:InvokeCommandAction Command="{Binding FetchFeedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
 				</core:EventTriggerBehavior>
 			</interactivity:Interaction.Behaviors>
 		</treeviewcontrol:TreeView>
@@ -97,7 +97,7 @@
 							<TextBlock Grid.Row="1" Grid.Column="1" 
 										TextTrimming="WordEllipsis" 
 										TextWrapping="WrapWholeWords"
-										Text="{Binding Summary.Content, Converter={StaticResource HtmlStripperConverter}}" />
+										Text="{Binding Summary.Content}" />
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using App.Services.OAuth;
 using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel.Core;
-using App.Services;
 using System;
 using App.Utils;
+using App.Feedly;
 
 namespace App.Auth
 {

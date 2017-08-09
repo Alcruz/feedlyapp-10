@@ -1,7 +1,5 @@
 ﻿using App.Auth;
 using App.Dashboard;
-using App.Services;
-using App.Services.OAuth;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 
@@ -26,7 +24,7 @@ namespace App.ViewModels
 					navService.Configure("main-page", typeof(MainPage));
 					return navService;
 				});
-				SimpleIoc.Default.Register<FeedlyOAuth2Authenticator>();
+				SimpleIoc.Default.Register<Feedly.FeedlyOAuth2Authenticator>();
 			}
 			catch
 			{

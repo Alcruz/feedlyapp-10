@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace App.Dashboard
+namespace App.Feedly
 {
-    public class StreamDto
+    public class Stream
     {
         public string Id { get; set; }
         public string Direction { get; set; }

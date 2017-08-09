@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using App.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
 

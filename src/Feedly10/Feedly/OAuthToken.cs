@@ -1,7 +1,7 @@
 ﻿using App.Utils;
 using System;
 
-namespace App.Services.OAuth
+namespace App.Feedly
 {
 	public class OAuthToken
 	{

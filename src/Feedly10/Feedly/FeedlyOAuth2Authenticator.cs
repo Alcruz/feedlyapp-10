@@ -8,7 +8,7 @@ using App.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace App.Services.OAuth
+namespace App.Feedly
 {
 	public class FeedlyOAuth2Authenticator
 	{
