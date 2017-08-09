@@ -24,7 +24,4 @@
     <ClInclude Include="ViewModel.h" />
     <ClInclude Include="IntegerToIndentationConverter.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="README" />
-  </ItemGroup>
 </Project>

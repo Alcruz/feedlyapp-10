@@ -231,9 +231,6 @@
     <ClCompile Include="TreeViewItemAutomationPeer.cpp" />
     <ClCompile Include="ViewModel.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="README" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
