@@ -1,7 +1,6 @@
 using GalaSoft.MvvmLight;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Net.Http;
@@ -151,17 +150,6 @@ namespace App.Dashboard
 			var builder = new UriBuilder(Url);
 			builder.Path = "favicon.ico";
 			return await DownloadFaviconiconFromUrl(builder.Uri);
-		}
-	}
-
-	namespace Dtos
-	{
-		public class Subscription
-		{
-			public string Id { get; set; }
-			public string Title { get; set; }
-			public string Website { get; set; }
-			public List<Category> Categories { get; set; }
 		}
 	}
 }

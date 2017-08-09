@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Feedly\Subscription.cs" />
     <Compile Include="Feedly\FeedlyRegistry.cs" />
     <Compile Include="Auth\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
@@ -112,7 +113,7 @@
     </Compile>
     <Compile Include="Dashboard\MainViewModel.cs" />
     <Compile Include="Feedly\StreamDto.cs" />
-    <Compile Include="Dashboard\Subscrition.cs" />
+    <Compile Include="Dashboard\Subscription.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
