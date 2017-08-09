@@ -44,7 +44,7 @@ namespace App.Services.OAuth
 				});
 
 				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await httpClient.PostAsync(FeedlyRegistry.AuthCodeUrl, content);
+				var response = await httpClient.PostAsync(FeedlyRegistry.AuthTokenUrl, content);
 				if (!response.IsSuccessStatusCode) return null;
 
 				var authTokenJson = await response.Content.ReadAsStringAsync();

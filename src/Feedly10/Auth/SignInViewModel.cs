@@ -94,15 +94,17 @@ namespace App.Auth
 		{
 			Assert.IsNotNull(authToken, "AuthToken");
 			var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-			var composite = new Windows.Storage.ApplicationDataCompositeValue();
-			composite["AccessToken"] = authToken.AccessToken;
-			composite["ExpiresIn"] = authToken.ExpiresIn;
-			composite["Id"] = authToken.Id;
-			composite["Plan"] = authToken.Plan;
-			composite["RefreshToken"] = authToken.RefreshToken;
-			composite["State"] = authToken.State?? string.Empty;
-			composite["TokenType"] = authToken.TokenType;
-			composite["CreatedAt"] = authToken.CreatedAt;
+			var composite = new Windows.Storage.ApplicationDataCompositeValue
+			{
+				["AccessToken"] = authToken.AccessToken,
+				["ExpiresIn"] = authToken.ExpiresIn,
+				["Id"] = authToken.Id,
+				["Plan"] = authToken.Plan,
+				["RefreshToken"] = authToken.RefreshToken,
+				["State"] = authToken.State ?? string.Empty,
+				["TokenType"] = authToken.TokenType,
+				["CreatedAt"] = authToken.CreatedAt
+			};
 			localSettings.Values["AuthToken"] = composite;
 		}
 	}
