@@ -26,7 +26,7 @@
 		<DataTemplate x:Key="CategoryTemplate" x:DataType="treeviewcontrol:TreeNode">
 			<ContentControl>
 				<interactivity:Interaction.Behaviors>
-					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Feedly.Category'}" Value="True">
+					<core:DataTriggerBehavior Binding="{Binding Data, Converter={StaticResource TypeToBoolConverter}, ConverterParameter='App.Dashboard.Category'}" Value="True">
 						<core:ChangePropertyAction PropertyName="Content">
 							<core:ChangePropertyAction.Value>
 								<Grid Margin="{Binding Depth, Converter={StaticResource IntegerToIdentationConverter}}">

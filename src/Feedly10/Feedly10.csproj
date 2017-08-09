@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dashboard\Category.cs" />
+    <Compile Include="Dashboard\UIItem.cs" />
     <Compile Include="Feedly\Subscription.cs" />
     <Compile Include="Feedly\FeedlyRegistry.cs" />
     <Compile Include="Auth\SignInPage.xaml.cs">

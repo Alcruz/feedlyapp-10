@@ -34,7 +34,7 @@ namespace App.Dashboard
 
 		public MainViewModel(INavigationService navigationService) : base(navigationService)
 		{
-			FetchFeedCommand = new RelayCommand<TreeNode>(async treeNode => await FetchFeed(treeNode.Data as Subscription));
+			FetchFeedCommand = new RelayCommand<TreeNode>(async treeNode => await FetchFeed(treeNode?.Data as UIModel));
 		}
 
 		public override async Task OnNavigatedTo(object param)
@@ -43,18 +43,22 @@ namespace App.Dashboard
 			_feedlyApi = new Feedly.FeedlyApi(oAuthToken);
 			var subscriptions = await _feedlyApi.GetSubscrition();
 
-			var treeNodes = subscriptions.SelectMany(subscrition => subscrition.Categories).Distinct().Select(category =>
-			new TreeNode
-			{
-				Data = category,
-				IsExpanded = true
-			}).ToList();
+			var treeNodes = subscriptions
+				.SelectMany(subscrition => subscrition.Categories)
+				.Select(categoryDto => new Category(categoryDto))
+				.Distinct()
+				.Select(category =>
+					new TreeNode
+					{
+						Data = category,
+						IsExpanded = true
+					}).ToList();
 
 			foreach (var nextSubscription in subscriptions)
 			{
 				foreach (var nextCategory in nextSubscription.Categories)
 				{
-					var targetTreeNodes = treeNodes.Where(treeNode => treeNode.Data.Equals(nextCategory));
+					var targetTreeNodes = treeNodes.Where(treeNode => (treeNode.Data as Category).Id.Equals(nextCategory.Id));
 					foreach (var nextTreeNode in targetTreeNodes)
 					{
 						nextTreeNode.Add(new TreeNode { Data = new Subscription(nextSubscription) });
@@ -62,18 +66,18 @@ namespace App.Dashboard
 				}
 			}
 
-			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Feedly.Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
 			await FetchAllFeeds(oAuthToken);
 		}
-		
-		private async Task FetchFeed(Subscription data)
+
+		private async Task FetchFeed(UIModel uiItem)
 		{
-			if (data == null)
+			if (uiItem == null)
 			{
 				return;
 			}
 
-			var stream = await _feedlyApi.GetContent(Uri.EscapeDataString(data.Id));
+			var stream = await _feedlyApi.GetContent(Uri.EscapeDataString(uiItem.Id));
 			Stream = stream;
 		}
 

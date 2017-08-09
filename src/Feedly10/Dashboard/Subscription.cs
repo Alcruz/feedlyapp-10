@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace App.Dashboard
 {
-	public class Subscription : ObservableObject
+	public class Subscription : UIModel
 	{
 		private BitmapImage favicon;
 
@@ -28,7 +28,6 @@ namespace App.Dashboard
 			Task.Run(DownloadFavicon);
 		}
 
-		public string Id { get; }
 		public string Title { get; }
 		public string Website { get; }
 		public ImmutableList<Feedly.Category> Categories { get; }
