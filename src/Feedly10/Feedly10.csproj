@@ -105,13 +105,13 @@
     <Compile Include="Converters\HtmlStripperConverter.cs" />
     <Compile Include="Converters\TypeToBoolConverter.cs" />
     <Compile Include="Converters\ValueWhenConverter.cs" />
-    <Compile Include="Dashboard\Category.cs" />
-    <Compile Include="Dashboard\FeedlyApi.cs" />
+    <Compile Include="Feedly\Category.cs" />
+    <Compile Include="Feedly\FeedlyApi.cs" />
     <Compile Include="Dashboard\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\MainViewModel.cs" />
-    <Compile Include="Dashboard\StreamDto.cs" />
+    <Compile Include="Feedly\StreamDto.cs" />
     <Compile Include="Dashboard\Subscrition.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

@@ -12,6 +12,7 @@ namespace App.Services.OAuth
 {
 	public class FeedlyOAuth2Authenticator
 	{
+
 		private UriBuilder BuildUri()
 		{
 			var uriBuilder = new UriBuilder(FeedlyRegistry.AuthCodeUrl);
@@ -19,8 +20,8 @@ namespace App.Services.OAuth
 			{
 				{"response_type", "code"},
 				{"client_id", "sandbox"},
-				{"redirect_uri", FeedlyRegistry.RedirectAuthUrl},
-				{"scope", "https://cloud.feedly.com/subscriptions"}
+				{"redirect_uri", FeedlyRegistry.AuthRedirectUrl},
+				{"scope", FeedlyRegistry.ScopeSubscription}
 			};
 
 			uriBuilder.AddQueryParameters(queryString);
@@ -35,7 +36,7 @@ namespace App.Services.OAuth
 					["code"] = authCode,
 					["client_id"] = "sandbox",
 					["client_secret"] = "sTdnABpJDCmpurfU",
-					["redirect_uri"] = FeedlyRegistry.RedirectAuthUrl,
+					["redirect_uri"] = FeedlyRegistry.AuthRedirectUrl,
 					["grant_type"] = "authorization_code"
 				};
 				var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings
@@ -61,7 +62,7 @@ namespace App.Services.OAuth
 		{
 			string authCode = null;
 			var uriBuilder = BuildUri();
-			var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri(FeedlyRegistry.RedirectAuthUrl));
+			var webAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, uriBuilder.Uri, new Uri(FeedlyRegistry.AuthRedirectUrl));
 
 			if (webAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
 			{

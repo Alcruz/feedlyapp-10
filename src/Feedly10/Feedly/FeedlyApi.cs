@@ -13,7 +13,6 @@ namespace App.Dashboard
 	{
 		public FeedlyApi(OAuthToken oAuthToken)
 		{
-			BaseUri = "https://sandbox.feedly.com/v3";
 			OAuthToken = oAuthToken;
 		}
 
@@ -33,7 +32,7 @@ namespace App.Dashboard
 		{
 			using (var httpClient = new HttpClient())
 			{
-				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(BaseUri + "/categories"));
+				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(FeedlyRegistry.Categories));
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var categoriesJson = await response.Content.ReadAsStringAsync();
@@ -45,7 +44,7 @@ namespace App.Dashboard
 		{
 			using (var httpClient = new HttpClient())
 			{
-				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(BaseUri + "/subscriptions"));
+				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(FeedlyRegistry.Subcriptions));
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var subscriptionJson = await response.Content.ReadAsStringAsync();
@@ -57,8 +56,7 @@ namespace App.Dashboard
 		{
 			using (var httpClient = new HttpClient())
 			{
-				var request = new HttpRequestMessage(HttpMethod.Get,
-					new Uri(BaseUri + $"/streams/{Uri.EscapeDataString(streamId)}/contents"));
+				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(string.Format(FeedlyRegistry.StreamContent, streamId)));
 				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
 				var response = await httpClient.SendRequestAsync(request);
 				var contentStreamJson = await response.Content.ReadAsStringAsync();
