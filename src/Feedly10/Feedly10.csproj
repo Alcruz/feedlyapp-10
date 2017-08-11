@@ -186,7 +186,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Control\TreeViewControl.vcxproj">
+    <ProjectReference Include="..\HtmlTextBlock\HtmlTextBlock.csproj">
+      <Project>{7b502eea-4099-401d-a864-f2480771872b}</Project>
+      <Name>HtmlTextBlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeViewControl\TreeViewControl.vcxproj">
       <Project>{003839ef-fc81-523c-90e7-4c549425e4eb}</Project>
       <Name>TreeViewControl</Name>
     </ProjectReference>
