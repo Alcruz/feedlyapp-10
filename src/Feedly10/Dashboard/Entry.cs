@@ -18,9 +18,9 @@ namespace App.Dashboard
 			Published = entryDto.Published;
 			Crawled = entryDto.Crawled;
 			Author = entryDto.Author;
-			Summary = ExtractText(entryDto.Summary.Content);
+			Summary = ExtractText(entryDto.Summary?.Content);
 			ThumbnailUrl = entryDto.Visual?.Url?? string.Empty;
-			Content = entryDto.Content.Content;
+			Content = entryDto.Content?.Content ?? string.Empty;
 			Unread = entryDto.Unread;
 		}
 
@@ -38,6 +38,11 @@ namespace App.Dashboard
 
 		private static string ExtractText(string html)
 		{
+			if (html == null)
+			{
+				return string.Empty;
+			}
+
 			var htmlDocument = new HtmlDocument();
 			htmlDocument.LoadHtml(html);
 
