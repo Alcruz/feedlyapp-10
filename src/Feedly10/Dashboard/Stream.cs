@@ -9,7 +9,7 @@ namespace App.Dashboard
 {
     public class Stream : UIModel
     {
-		public Stream(Feedly.Stream streamDto)
+		public Stream(Feedly.Stream streamDto) : base(streamDto.Id)
 		{
 			Direction = streamDto.Direction;
 			Updated = streamDto.Updated;

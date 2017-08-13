@@ -9,7 +9,7 @@ namespace App.Dashboard
 {
 	public class Entry : UIModel
 	{
-		public Entry(Feedly.Entry entryDto)
+		public Entry(Feedly.Entry entryDto) : base(entryDto.Id)
 		{
 			OriginId = entryDto.OriginId;
 			Fingerprint = entryDto.Fingerprint;

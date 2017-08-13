@@ -1,40 +1,46 @@
-using GalaSoft.MvvmLight;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Immutable;
-using System.ComponentModel;
 using System.Net.Http;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage.Streams;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace App.Dashboard
 {
 	public class Subscription : UIModel
 	{
 		private BitmapImage favicon;
+		private ISet<Category> _categories;
 
-		public Subscription(Feedly.Subscription dto)
+		public Subscription(Feedly.Subscription dto) : base(dto.Id)
 		{
-			Id = dto.Id;
 			Title = dto.Title;
 			Website = dto.Website;
-			Categories = dto.Categories.ToImmutableList();
+			_categories = new HashSet<Category>();
 			Task.Run(DownloadFavicon);
 		}
 
 		public string Title { get; }
 		public string Website { get; }
-		public ImmutableList<Feedly.Category> Categories { get; }
+		public IImmutableSet<Category> Categories => _categories.ToImmutableHashSet();
+	
 		public BitmapImage Favicon
 		{
 			get => this.favicon;
 			private set => Set(ref this.favicon, value);
+		}
+
+		internal void AddCategory(Category category)
+		{
+			if (!_categories.Contains(category))
+			{
+				_categories.Add(category);
+			}
 		}
 
 		private async Task DownloadFavicon()

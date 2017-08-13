@@ -14,20 +14,9 @@ namespace App.Dashboard
 	{
 		private Stream _stream;
 		private Feedly.FeedlyApi _feedlyApi;
-		private List<TreeNode> categoryTreeNodes;
+		private List<Category> _categories;
 
-		public List<TreeNode> CategoryTreeNodes
-		{
-			get
-			{
-				return this.categoryTreeNodes;
-			}
-			set
-			{
-				Set(ref this.categoryTreeNodes, value);
-			}
-		}
-
+		public List<Category> Categories { get { return _categories; } set { Set(ref _categories, value); } }
 		public Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
 		public ICommand FetchFeedCommand { get; set; }
@@ -43,31 +32,27 @@ namespace App.Dashboard
 			_feedlyApi = new Feedly.FeedlyApi(oAuthToken);
 			var subscriptions = await _feedlyApi.GetSubscrition();
 
-			var treeNodes = subscriptions
+			var categories = subscriptions
 				.SelectMany(subscrition => subscrition.Categories)
 				.Select(categoryDto => new Category(categoryDto))
 				.Distinct()
-				.Select(category =>
-					new TreeNode
-					{
-						Data = category,
-						IsExpanded = true
-					}).ToList();
+				.ToList();
 
 			foreach (var nextSubscription in subscriptions)
 			{
+				var subscription = new Subscription(nextSubscription);
 				foreach (var nextCategory in nextSubscription.Categories)
 				{
-					var targetTreeNodes = treeNodes.Where(treeNode => (treeNode.Data as Category).Id.Equals(nextCategory.Id));
-					foreach (var nextTreeNode in targetTreeNodes)
+					
+					var targetCategories = categories.Where(category => category.Id.Equals(nextCategory.Id));
+					foreach (var targetCategory in targetCategories)
 					{
-						nextTreeNode.Add(new TreeNode { Data = new Subscription(nextSubscription) });
+						targetCategory.AddSubscription(subscription);
 					}
 				}
 			}
 
-			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
-			//Stream = new Stream(await FetchAllFeeds(oAuthToken));
+			Categories = categories.OrderBy(category => category.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
 		}
 
 		private async Task FetchFeed(UIModel uiItem)

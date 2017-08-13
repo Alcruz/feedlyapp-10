@@ -1,32 +1,45 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace App.Dashboard
 {
 	public class Category : UIModel
 	{
-		public Category(Feedly.Category category)
+		private ISet<Subscription> _subscriptions;
+
+		public Category(Feedly.Category category) : base(category.Id)
 		{
-			Id = category.Id;
 			Label = category.Label;
+			IsExpanded = true;
+			ToggleExpandCommand = new RelayCommand(ToggleExpand);
+			_subscriptions = new HashSet<Subscription>();
 		}
 
 		public string Label { get; private set; }
+		public bool IsExpanded { get; private set; }
+		public ICommand ToggleExpandCommand { get; private set; }
 
-		public override bool Equals(object obj)
+		public IImmutableSet<Subscription> Subscriptions => _subscriptions.ToImmutableHashSet();
+
+		internal void AddSubscription(Subscription subscription)
 		{
-			if (obj is Category category)
-				return Id.Equals(category.Id);
-			else
-				return false;
+			if (!_subscriptions.Contains(subscription))
+			{
+				_subscriptions.Add(subscription);
+				subscription.AddCategory(this);
+			}
 		}
 
-		public override int GetHashCode()
+		private void ToggleExpand()
 		{
-			return Id.GetHashCode();
+			IsExpanded = !IsExpanded;
+			RaisePropertyChanged(nameof(IsExpanded));
 		}
 	}
 }
