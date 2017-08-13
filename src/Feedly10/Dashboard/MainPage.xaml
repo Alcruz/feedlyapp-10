@@ -79,7 +79,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<ListView Grid.Row="1" ItemsSource="{Binding Stream.Items}">
+			<ListView Grid.Row="1" ItemsSource="{Binding Stream.Items}" IsItemClickEnabled="False" SelectionMode="None">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Grid Margin="0, 0, 0, 50">
@@ -93,9 +93,9 @@
 							</Grid.ColumnDefinitions>
 							<Image VerticalAlignment="Top" Width="200" Height="112"
 								   Margin="8" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding ThumbnailUrl}" />
-							<TextBlock Margin="0, 8" FontWeight="Bold" FontSize="18" Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
+							<TextBlock IsTextSelectionEnabled="True" Margin="0, 8" FontWeight="Bold" FontSize="18" Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
 
-							<TextBlock Grid.Row="1" Grid.Column="1" 
+							<TextBlock IsTextSelectionEnabled="True" Grid.Row="1" Grid.Column="1" 
 									    VerticalAlignment="Bottom"
 										TextTrimming="WordEllipsis" 
 										TextWrapping="WrapWholeWords"
