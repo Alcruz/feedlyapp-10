@@ -96,6 +96,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dashboard\Category.cs" />
+    <Compile Include="Dashboard\Entry.cs" />
+    <Compile Include="Dashboard\Stream.cs" />
     <Compile Include="Dashboard\UIItem.cs" />
     <Compile Include="Feedly\Subscription.cs" />
     <Compile Include="Feedly\FeedlyRegistry.cs" />
@@ -163,6 +165,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.5.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>1.1.2</Version>
     </PackageReference>

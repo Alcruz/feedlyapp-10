@@ -12,7 +12,7 @@ namespace App.Dashboard
 {
 	public class MainViewModel : PageViewModel
 	{
-		private Feedly.Stream _stream;
+		private Stream _stream;
 		private Feedly.FeedlyApi _feedlyApi;
 		private List<TreeNode> categoryTreeNodes;
 
@@ -28,7 +28,7 @@ namespace App.Dashboard
 			}
 		}
 
-		public Feedly.Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
+		public Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
 		public ICommand FetchFeedCommand { get; set; }
 
@@ -67,7 +67,7 @@ namespace App.Dashboard
 			}
 
 			CategoryTreeNodes = treeNodes.OrderBy(treeNode => (treeNode.Data as Category).Label, StringComparer.CurrentCultureIgnoreCase).ToList();
-			await FetchAllFeeds(oAuthToken);
+			//Stream = new Stream(await FetchAllFeeds(oAuthToken));
 		}
 
 		private async Task FetchFeed(UIModel uiItem)
@@ -77,13 +77,11 @@ namespace App.Dashboard
 				return;
 			}
 
-			var stream = await _feedlyApi.GetContent(Uri.EscapeDataString(uiItem.Id));
-			Stream = stream;
+			var streamDto = await _feedlyApi.GetContent(Uri.EscapeDataString(uiItem.Id));
+			Stream = new Stream(streamDto);
 		}
 
-		private async Task FetchAllFeeds(Feedly.OAuthToken oAuthToken)
-		{
-			var stream = await _feedlyApi.GetContent($"user/{oAuthToken.AccessToken}/category/global.all");
-		}
+		private async Task<Feedly.Stream> FetchAllFeeds(Feedly.OAuthToken oAuthToken) => 
+			await _feedlyApi.GetContent($"user/{oAuthToken.AccessToken}/category/global.all");
 	}
 }
