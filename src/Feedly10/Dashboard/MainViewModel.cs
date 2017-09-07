@@ -23,7 +23,7 @@ namespace App.Dashboard
 
 		public MainViewModel(INavigationService navigationService) : base(navigationService)
 		{
-			FetchFeedCommand = new RelayCommand<TreeNode>(async treeNode => await FetchFeed(treeNode?.Data as UIModel));
+			FetchFeedCommand = new RelayCommand<object>(async treeNode => await FetchFeed(treeNode as UIModel));
 		}
 
 		public override async Task OnNavigatedTo(object param)

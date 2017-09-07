@@ -190,12 +190,6 @@
       <Version>4.3.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TreeViewControl\TreeViewControl.vcxproj">
-      <Project>{003839ef-fc81-523c-90e7-4c549425e4eb}</Project>
-      <Name>TreeViewControl</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
