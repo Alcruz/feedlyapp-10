@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace App.Dashboard
+namespace App.Models
 {
 	public class Subscription : UIModel
 	{

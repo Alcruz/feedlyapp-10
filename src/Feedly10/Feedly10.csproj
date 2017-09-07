@@ -95,10 +95,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dashboard\Category.cs" />
-    <Compile Include="Dashboard\Entry.cs" />
-    <Compile Include="Dashboard\Stream.cs" />
-    <Compile Include="Dashboard\UIItem.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\Stream.cs" />
+    <Compile Include="Models\UIModels.cs" />
     <Compile Include="Feedly\Subscription.cs" />
     <Compile Include="Feedly\FeedlyRegistry.cs" />
     <Compile Include="Auth\SignInPage.xaml.cs">
@@ -116,13 +116,16 @@
     </Compile>
     <Compile Include="Dashboard\MainViewModel.cs" />
     <Compile Include="Feedly\StreamDto.cs" />
-    <Compile Include="Dashboard\Subscription.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Feedly\FeedlyOAuth2Authenticator.cs" />
     <Compile Include="Feedly\OAuthToken.cs" />
+    <Compile Include="SubscriptionSidebar\SubscriptionSidebar.xaml.cs">
+      <DependentUpon>SubscriptionSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Assert.cs" />
     <Compile Include="Utils\CollectionExtensions.cs" />
     <Compile Include="Utils\UriBuilderExtensions.cs" />
@@ -161,6 +164,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SubscriptionSidebar\SubscriptionSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -6,89 +6,17 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:app="using:App"
 	xmlns:converters="using:App.Converters"
-	xmlns:local="using:App.Dashboard"
-	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-	xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+	xmlns:subscriptionsidebar="using:App.SubscriptionSidebar"
 	DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
 	mc:Ignorable="d">
-
-	<app:BasePage.Resources>
-		<converters:TypeToBoolConverter x:Key="TypeToBoolConverter" />
-
-		<Style x:Key="ToggleIcon"  TargetType="FontIcon">
-			<Setter Property="FontSize" Value="10" />
-			<Setter Property="Margin" Value="10,0" />
-		</Style>
-
-		<DataTemplate x:Key="SubscriptionTemplate" x:DataType="local:Subscription">
-			<ContentControl>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Image Stretch="UniformToFill" Margin="10" Width="20" Height="20" Source="{Binding Favicon, Mode=TwoWay}" />
-					<TextBlock Text="{Binding Title}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
-				</Grid>
-			</ContentControl>
-		</DataTemplate>
-
-		<DataTemplate x:Key="CategoryTemplate" x:DataType="local:Category">
-			<ContentControl HorizontalContentAlignment="Stretch">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<HyperlinkButton 
-						Grid.Row="0" 
-						Grid.Column="0" 
-						Command="{Binding ToggleExpandCommand}">
-						<Grid>
-							<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE011;" Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"/>
-							<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE013;" Visibility="{Binding IsExpanded, Converter={StaticResource InvertedVisibilityConverter}}" />
-						</Grid>
-					</HyperlinkButton>
-					<TextBlock Text="{Binding Label}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
-					<ListView 
-						Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"
-						Grid.Row="1" 
-						Grid.Column="0"
-						Grid.ColumnSpan="2" 
-						ItemTemplate="{StaticResource SubscriptionTemplate}"
-						ItemsSource="{Binding Subscriptions}" 
-						/>
-				</Grid>
-			</ContentControl>
-		</DataTemplate>
-	</app:BasePage.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
-		<ListView
-			HorizontalContentAlignment="Stretch"
-			ItemsSource="{Binding Categories}"
-			ItemTemplate="{StaticResource CategoryTemplate}">
-			<ListView.ItemContainerStyle>
-				<Style TargetType="ListViewItem">
-					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-					<Setter Property="Padding" Value="0" />
-					<Setter Property="Margin" Value="0" />
-				</Style>
-			</ListView.ItemContainerStyle>
-				<interactivity:Interaction.Behaviors>
-				<core:EventTriggerBehavior EventName="SelectionChanged">
-					<core:InvokeCommandAction Command="{Binding FetchFeedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
-				</core:EventTriggerBehavior>
-			</interactivity:Interaction.Behaviors>
-		</ListView>
+
+		<subscriptionsidebar:SubscriptionSidebar />
 
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Dashboard
+namespace App.Models
 {
 	public abstract class UIModel : ObservableObject
 	{

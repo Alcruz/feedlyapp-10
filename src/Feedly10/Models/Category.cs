@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace App.Dashboard
+namespace App.Models
 {
 	public class Category : UIModel
 	{
