@@ -1,22 +1,7 @@
-﻿using App.Dashboard;
-using App.Models;
-using System;
+﻿using App.Models;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -34,52 +19,46 @@ namespace App.Dashboard
 
 		private async void CategoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (CategoryListView.SelectedItem == null)
-			{
-				return;
-			}
-
-			DisableSelection(CategoryListView);
-			UnselectAllListViewItems(CategoryListView.ContainerFromItem(CategoryListView.SelectedItem) as ListViewItem);
-			EnableSelection(CategoryListView);
+			ChangeSelectedItems(CategoryListView);
 			await ViewModel.FetchFeed(CategoryListView.SelectedItem as UIModel);
 		}
 
 		private async void SubscriptionListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var subscriptionListView = sender as ListView;
-			var subscription = subscriptionListView.SelectedItem as Models.Subscription;
+			ChangeSelectedItems(sender as ListView);
+			await ViewModel.FetchFeed((sender as ListView).SelectedItem as UIModel);
+		}
 
-			if (subscription == null)
+		private void ChangeSelectedItems(ListView listView)
+		{
+			if (listView.SelectedItem == null)
 			{
 				return;
 			}
 
-			DisableSelection(subscriptionListView);
-			UnselectAllListViewItems(subscriptionListView.ContainerFromItem(subscription) as ListViewItem);
-			EnableSelection(subscriptionListView);
-			await ViewModel.FetchFeed(subscription);
+			DisableSelection(listView);
+			UnselectAllListViewItems(listView.ContainerFromItem(listView.SelectedItem) as ListViewItem);
+			EnableSelection(listView);
 		}
-
+		
 		private void EnableSelection(params ListView[] excepts)
 		{
-			var listViews = CategoryListView.FindDescendants<ListView>()
-				.Union(new List<ListView> { CategoryListView })
-				.Except(excepts);
-			foreach (var listView in listViews)
-			{
-				listView.SelectionMode = ListViewSelectionMode.Single;
-			}
+			SetListViewSelectionMode(ListViewSelectionMode.Single, excepts);
 		}
 
 		private void DisableSelection(params ListView[] excepts)
 		{
+			SetListViewSelectionMode(ListViewSelectionMode.None, excepts);
+		}
+
+		private void SetListViewSelectionMode(ListViewSelectionMode listViewSelectionMode, params ListView[] excepts)
+		{
 			var listViews = CategoryListView.FindDescendants<ListView>()
-				.Union(new List<ListView> { CategoryListView })
-				.Except(excepts);
+							.Union(new List<ListView> { CategoryListView })
+							.Except(excepts);
 			foreach (var listView in listViews)
 			{
-				listView.SelectionMode = ListViewSelectionMode.None;
+				listView.SelectionMode = listViewSelectionMode;
 			}
 		}
 
