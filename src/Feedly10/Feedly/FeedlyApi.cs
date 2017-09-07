@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Threading;
+using System.Net.Http;
 
 namespace App.Feedly
 {
@@ -31,8 +32,8 @@ namespace App.Feedly
 			using (var httpClient = new HttpClient())
 			{
 				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(FeedlyRegistry.Categories));
-				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
-				var response = await httpClient.SendRequestAsync(request);
+				request.Headers.TryAddWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
+				var response = await httpClient.SendAsync(request);
 				var categoriesJson = await response.Content.ReadAsStringAsync();
 				var categories = JsonDeserialize<List<Category>>(categoriesJson);
 				return categories;
@@ -43,24 +44,36 @@ namespace App.Feedly
 			using (var httpClient = new HttpClient())
 			{
 				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(FeedlyRegistry.Subcriptions));
-				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
-				var response = await httpClient.SendRequestAsync(request);
+				request.Headers.TryAddWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
+				var response = await httpClient.SendAsync(request);
 				var subscriptionJson = await response.Content.ReadAsStringAsync();
 				var subscrition = JsonDeserialize<List<Subscription>>(subscriptionJson);
 				return subscrition;
 			}
 		}
-		public async Task<Stream> GetContent(string streamId)
+		public async Task<Stream> GetContent(string streamId, CancellationToken cancellationToken)
 		{
-			using (var httpClient = new HttpClient())
+			try
 			{
-				var request = new HttpRequestMessage(HttpMethod.Get, new Uri(string.Format(FeedlyRegistry.StreamContent, streamId)));
-				request.Headers.TryAppendWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
-				var response = await httpClient.SendRequestAsync(request);
-				var contentStreamJson = await response.Content.ReadAsStringAsync();
-				var contentStream = JsonDeserialize<Stream>(contentStreamJson);
-				return contentStream;
+				using (var httpClient = new HttpClient())
+				{
+					var request = new HttpRequestMessage(HttpMethod.Get, new Uri(string.Format(FeedlyRegistry.StreamContent, streamId)));
+					request.Headers.TryAddWithoutValidation("Authorization", $"OAuth {OAuthToken.AccessToken}");
+					var response = await httpClient.SendAsync(request, cancellationToken);
+					var contentStreamJson = await response.Content.ReadAsStringAsync();
+					var contentStream = JsonDeserialize<Stream>(contentStreamJson);
+					return contentStream;
+				}
 			}
+			catch (TaskCanceledException ex)
+			{
+				if (!cancellationToken.IsCancellationRequested)
+				{
+					throw ex;
+				}
+			}
+
+			return null;
 		}
 		private string JsonSerialize<TModel>(TModel model) => JsonConvert.SerializeObject(model, _jsonSerializerSettings);
 		private TModel JsonDeserialize<TModel>(string json) => JsonConvert.DeserializeObject<TModel>(json, _jsonSerializerSettings);

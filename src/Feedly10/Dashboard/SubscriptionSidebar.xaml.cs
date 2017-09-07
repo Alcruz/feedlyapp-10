@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System.Threading;
+using System;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -11,7 +14,7 @@ namespace App.Dashboard
 	internal sealed partial class SubscriptionSidebar : UserControl
 	{
 		public MainViewModel ViewModel => DataContext as MainViewModel;
-
+		
 		public SubscriptionSidebar()
 		{
 			this.InitializeComponent();
@@ -25,17 +28,15 @@ namespace App.Dashboard
 
 		private async void CategoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ChangeSelectedItems(CategoryListView);
-			await ViewModel.FetchFeed(CategoryListView.SelectedItem as UIModel);
+			await ExecuteChangeSelection(CategoryListView);
 		}
 
 		private async void SubscriptionListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ChangeSelectedItems(sender as ListView);
-			await ViewModel.FetchFeed((sender as ListView).SelectedItem as UIModel);
+			await ExecuteChangeSelection(sender as ListView);
 		}
 
-		private void ChangeSelectedItems(ListView listView)
+		private async Task ExecuteChangeSelection(ListView listView)
 		{
 			if (listView.SelectedItem == null)
 			{
@@ -45,8 +46,9 @@ namespace App.Dashboard
 			DisableSelection(listView);
 			UnselectAllListViewItems(listView.ContainerFromItem(listView.SelectedItem) as ListViewItem);
 			EnableSelection(listView);
+			await ViewModel.FetchFeed(listView.SelectedItem as UIModel);
 		}
-		
+
 		private void EnableSelection(params ListView[] excepts)
 		{
 			SetListViewSelectionMode(ListViewSelectionMode.Single, excepts);

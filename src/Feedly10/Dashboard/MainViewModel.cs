@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using App.Models;
+using System.Threading;
 
 namespace App.Dashboard
 {
 	public class MainViewModel : PageViewModel
 	{
+		private Object _lock = new object();
+		private CancellationTokenSource _cancellationTokenSource;
 		private Stream _stream;
 		private Feedly.FeedlyApi _feedlyApi;
 		private List<Category> _categories;
@@ -41,7 +42,7 @@ namespace App.Dashboard
 				var subscription = new Subscription(nextSubscription);
 				foreach (var nextCategory in nextSubscription.Categories)
 				{
-					
+
 					var targetCategories = categories.Where(category => category.Id.Equals(nextCategory.Id));
 					foreach (var targetCategory in targetCategories)
 					{
@@ -61,11 +62,26 @@ namespace App.Dashboard
 				return;
 			}
 
-			var streamDto = await _feedlyApi.GetContent(Uri.EscapeDataString(uiItem.Id));
-			Stream = new Stream(streamDto);
+			CancelPreviousTask();
+			var streamDto = await _feedlyApi.GetContent(Uri.EscapeDataString(uiItem.Id), _cancellationTokenSource.Token);
+			if (streamDto != null)
+			{
+				Stream = new Stream(streamDto);
+			}
 		}
 
-		private async Task<Feedly.Stream> FetchAllFeeds(Feedly.OAuthToken oAuthToken) => 
-			await _feedlyApi.GetContent($"user/{oAuthToken.AccessToken}/category/global.all");
+		private void CancelPreviousTask()
+		{
+			lock (_lock)
+			{
+				if (_cancellationTokenSource != null)
+				{
+					_cancellationTokenSource.Cancel();
+					_cancellationTokenSource.Dispose();
+				}
+
+				_cancellationTokenSource = new CancellationTokenSource();
+			}
+		}
 	}
 }
