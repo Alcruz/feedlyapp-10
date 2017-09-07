@@ -106,7 +106,6 @@
     </Compile>
     <Compile Include="Auth\SignInViewModel.cs" />
     <Compile Include="BasePage.cs" />
-    <Compile Include="Controls\TreeViewExts.cs" />
     <Compile Include="Converters\HtmlStripperConverter.cs" />
     <Compile Include="Converters\TypeToBoolConverter.cs" />
     <Compile Include="Converters\ValueWhenConverter.cs" />
