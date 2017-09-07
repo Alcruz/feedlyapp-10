@@ -5,8 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:app="using:App"
-	xmlns:converters="using:App.Converters"
-	xmlns:subscriptionsidebar="using:App.SubscriptionSidebar"
+	xmlns:locals="using:App.Dashboard"
 	DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
 	mc:Ignorable="d">
 
@@ -16,7 +15,7 @@
 			<ColumnDefinition Width="3*" />
 		</Grid.ColumnDefinitions>
 
-		<subscriptionsidebar:SubscriptionSidebar />
+		<locals:SubscriptionSidebar />
 
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
