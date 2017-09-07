@@ -18,6 +18,8 @@ namespace App.Dashboard
 		public List<Category> Categories { get { return _categories; } set { Set(ref _categories, value); } }
 		public Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
+		public event EventHandler CategoriesLoaded;
+
 		public MainViewModel(INavigationService navigationService) : base(navigationService)
 		{
 		}
@@ -49,6 +51,7 @@ namespace App.Dashboard
 			}
 
 			Categories = categories.OrderBy(category => category.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			CategoriesLoaded?.Invoke(this, new EventArgs());
 		}
 
 		internal async Task FetchFeed(UIModel uiItem)

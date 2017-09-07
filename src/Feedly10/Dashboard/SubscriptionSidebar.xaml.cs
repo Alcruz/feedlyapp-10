@@ -15,6 +15,12 @@ namespace App.Dashboard
 		public SubscriptionSidebar()
 		{
 			this.InitializeComponent();
+			this.Loaded += SubscriptionSidebar_Loaded;
+		}
+
+		private void SubscriptionSidebar_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs eventArgs)
+		{
+			ViewModel.CategoriesLoaded += (s, e) => CategoryListView.SelectedIndex = 0; 
 		}
 
 		private async void CategoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
