@@ -18,11 +18,8 @@ namespace App.Dashboard
 		public List<Category> Categories { get { return _categories; } set { Set(ref _categories, value); } }
 		public Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
-		public ICommand FetchFeedCommand { get; set; }
-
 		public MainViewModel(INavigationService navigationService) : base(navigationService)
 		{
-			FetchFeedCommand = new RelayCommand<object>(async item => await FetchFeed(item as UIModel));
 		}
 
 		public override async Task OnNavigatedTo(object param)
@@ -54,7 +51,7 @@ namespace App.Dashboard
 			Categories = categories.OrderBy(category => category.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
 		}
 
-		private async Task FetchFeed(UIModel uiItem)
+		internal async Task FetchFeed(UIModel uiItem)
 		{
 			if (uiItem == null)
 			{

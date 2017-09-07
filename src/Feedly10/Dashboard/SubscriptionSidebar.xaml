@@ -407,7 +407,9 @@
 						Background="White"
 						ItemTemplate="{StaticResource SubscriptionTemplate}"
 						ItemsSource="{Binding Subscriptions}" 
-						ItemContainerStyle="{StaticResource ListViewItemExpanded}"/>
+						ItemContainerStyle="{StaticResource ListViewItemExpanded}" 
+						SelectionChanged="SubscriptionListView_SelectionChanged"
+						/>
 				</Grid>
 			</ContentControl>
 		</DataTemplate>
@@ -415,9 +417,11 @@
 
 	<Grid>
 		<ListView
+			Name="CategoryListView"
 			HorizontalContentAlignment="Stretch"
 			ItemsSource="{Binding Categories}"
-			ItemTemplate="{StaticResource CategoryTemplate}">
+			ItemTemplate="{StaticResource CategoryTemplate}"
+			SelectionChanged="CategoryListView_SelectionChanged">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource ListViewItemExpanded}" TargetType="ListViewItem">
 					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -425,11 +429,6 @@
 					<Setter Property="Margin" Value="0" />
 				</Style>
 			</ListView.ItemContainerStyle>
-			<interactivity:Interaction.Behaviors>
-				<core:EventTriggerBehavior EventName="SelectionChanged">
-					<core:InvokeCommandAction Command="{Binding FetchFeedCommand}" CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
-				</core:EventTriggerBehavior>
-			</interactivity:Interaction.Behaviors>
 		</ListView>
 	</Grid>
 </UserControl>
