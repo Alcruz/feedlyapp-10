@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="using:App.Models"
-    mc:Ignorable="d"
+	xmlns:dashboard="using:App.Dashboard"
+	mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 	<UserControl.Resources>
@@ -13,6 +14,60 @@
 			<Setter Property="FontSize" Value="10" />
 			<Setter Property="Margin" Value="10,0" />
 		</Style>
+
+		<dashboard:SidebarEntryTemplateSelector x:Key="SidebarEntryTemplateSelector">
+			<dashboard:SidebarEntryTemplateSelector.CategoryTemplate>
+				<DataTemplate x:DataType="models:Category">
+					<ContentControl HorizontalContentAlignment="Stretch">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<HyperlinkButton 
+						Grid.Row="0" 
+						Grid.Column="0" 
+						Command="{Binding ToggleExpandCommand}">
+								<Grid>
+									<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE011;" Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"/>
+									<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE013;" Visibility="{Binding IsExpanded, Converter={StaticResource InvertedVisibilityConverter}}" />
+								</Grid>
+							</HyperlinkButton>
+							<TextBlock Text="{Binding Label}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
+							<ListView 
+						Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"
+						Grid.Row="1" 
+						Grid.Column="0"
+						Grid.ColumnSpan="2" 
+						Background="White"
+						ItemTemplate="{Binding Path=SubscriptionTemplate, Source={StaticResource SidebarEntryTemplateSelector}}"
+						ItemsSource="{Binding Subscriptions}" 
+						ItemContainerStyle="{StaticResource ListViewItemExpanded}" 
+						SelectionChanged="SubscriptionListView_SelectionChanged"
+						/>
+						</Grid>
+					</ContentControl>
+				</DataTemplate>
+			</dashboard:SidebarEntryTemplateSelector.CategoryTemplate>
+			<dashboard:SidebarEntryTemplateSelector.SubscriptionTemplate>
+				<DataTemplate x:DataType="models:Subscription">
+					<ContentControl>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Image Stretch="UniformToFill" Margin="10" Width="20" Height="20" Source="{Binding Icon, Mode=TwoWay}" />
+							<TextBlock Text="{Binding Title}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
+						</Grid>
+					</ContentControl>
+				</DataTemplate>
+			</dashboard:SidebarEntryTemplateSelector.SubscriptionTemplate>
+		</dashboard:SidebarEntryTemplateSelector>
 
 		<!-- Style for Windows.UI.Xaml.Controls.ListViewItem -->
 		<Style TargetType="ListViewItem" x:Key="ListViewItemExpanded">
@@ -363,62 +418,16 @@
 		</Style>
 
 
-		<DataTemplate x:Key="SubscriptionTemplate" x:DataType="models:Subscription">
-			<ContentControl>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Image Stretch="UniformToFill" Margin="10" Width="20" Height="20" Source="{Binding Favicon, Mode=TwoWay}" />
-					<TextBlock Text="{Binding Title}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
-				</Grid>
-			</ContentControl>
-		</DataTemplate>
 
-		<DataTemplate x:Key="CategoryTemplate" x:DataType="models:Category">
-			<ContentControl HorizontalContentAlignment="Stretch">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<HyperlinkButton 
-						Grid.Row="0" 
-						Grid.Column="0" 
-						Command="{Binding ToggleExpandCommand}">
-						<Grid>
-							<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE011;" Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"/>
-							<FontIcon Style="{StaticResource ToggleIcon}" Glyph="&#xE013;" Visibility="{Binding IsExpanded, Converter={StaticResource InvertedVisibilityConverter}}" />
-						</Grid>
-					</HyperlinkButton>
-					<TextBlock Text="{Binding Label}" Margin="0,10" Grid.Column="1" Grid.Row="0" />
-					<ListView 
-						Visibility="{Binding IsExpanded, Converter={StaticResource VisibilityConverter}}"
-						Grid.Row="1" 
-						Grid.Column="0"
-						Grid.ColumnSpan="2" 
-						Background="White"
-						ItemTemplate="{StaticResource SubscriptionTemplate}"
-						ItemsSource="{Binding Subscriptions}" 
-						ItemContainerStyle="{StaticResource ListViewItemExpanded}" 
-						SelectionChanged="SubscriptionListView_SelectionChanged"
-						/>
-				</Grid>
-			</ContentControl>
-		</DataTemplate>
+
 	</UserControl.Resources>
 
 	<Grid>
 		<ListView
 			Name="CategoryListView"
 			HorizontalContentAlignment="Stretch"
-			ItemsSource="{Binding Categories}"
-			ItemTemplate="{StaticResource CategoryTemplate}"
+			ItemsSource="{Binding SidebarMenuEntries}"
+			ItemTemplateSelector="{StaticResource SidebarEntryTemplateSelector}"
 			SelectionChanged="CategoryListView_SelectionChanged">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource ListViewItemExpanded}" TargetType="ListViewItem">

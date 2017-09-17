@@ -14,9 +14,9 @@ namespace App.Dashboard
 		private CancellationTokenSource _cancellationTokenSource;
 		private Stream _stream;
 		private Feedly.FeedlyApi _feedlyApi;
-		private List<Category> _categories;
+		private List<UIModel> sidbarMenuEntries;
 
-		public List<Category> Categories { get { return _categories; } set { Set(ref _categories, value); } }
+		public List<UIModel> SidebarMenuEntries { get { return sidbarMenuEntries; } set { Set(ref sidbarMenuEntries, value); } }
 		public Stream Stream { get { return _stream; } set { Set(ref _stream, value); } }
 
 		public event EventHandler CategoriesLoaded;
@@ -29,7 +29,10 @@ namespace App.Dashboard
 		{
 			var oAuthToken = param as Feedly.OAuthToken;
 			_feedlyApi = new Feedly.FeedlyApi(oAuthToken);
-			Categories = await FetchCategoriesForCurrentUser();
+			SidebarMenuEntries =
+				new List<UIModel> { GlobalSubscription.All(oAuthToken.Id), GlobalSubscription.ReadLater(oAuthToken.Id) }
+				.Concat(await FetchCategoriesForCurrentUser())
+				.ToList();
 			CategoriesLoaded?.Invoke(this, new EventArgs());
 		}
 
@@ -62,7 +65,7 @@ namespace App.Dashboard
 			}
 		}
 
-		private async Task<List<Category>> FetchCategoriesForCurrentUser()
+		private async Task<IEnumerable<UIModel>> FetchCategoriesForCurrentUser()
 		{
 			var categories = (await _feedlyApi.GetSubscrition())
 				.SelectMany(subscrition => subscrition.Categories)
@@ -83,7 +86,7 @@ namespace App.Dashboard
 				}
 			}
 
-			return categories;
+			return categories.OfType<UIModel>();
 		}
 	}
 }

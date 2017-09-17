@@ -12,28 +12,20 @@ using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace App.Models
 {
-	public class Subscription : UIModel
+	public class Subscription : AbstractSubscription
 	{
-		private BitmapImage favicon;
 		private ISet<Category> _categories;
 
-		public Subscription(Feedly.Subscription dto) : base(dto.Id)
+		public Subscription(Feedly.Subscription dto) : base(dto.Id, dto.Title)
 		{
-			Title = dto.Title;
 			Website = dto.Website;
 			_categories = new HashSet<Category>();
 			Task.Run(DownloadFavicon);
 		}
 
-		public string Title { get; }
 		public string Website { get; }
 		public IImmutableSet<Category> Categories => _categories.ToImmutableHashSet();
-	
-		public BitmapImage Favicon
-		{
-			get => this.favicon;
-			private set => Set(ref this.favicon, value);
-		}
+
 
 		internal void AddCategory(Category category)
 		{
@@ -58,7 +50,7 @@ namespace App.Models
 							stream.Seek(0);
 							await bitmap.SetSourceAsync(stream);
 						}
-						Favicon = bitmap;
+						Icon = bitmap;
 					});
 			}
 		}
