@@ -29,29 +29,7 @@ namespace App.Dashboard
 		{
 			var oAuthToken = param as Feedly.OAuthToken;
 			_feedlyApi = new Feedly.FeedlyApi(oAuthToken);
-			var subscriptions = await _feedlyApi.GetSubscrition();
-
-			var categories = subscriptions
-				.SelectMany(subscrition => subscrition.Categories)
-				.Select(categoryDto => new Category(categoryDto))
-				.Distinct()
-				.ToList();
-
-			foreach (var nextSubscription in subscriptions)
-			{
-				var subscription = new Subscription(nextSubscription);
-				foreach (var nextCategory in nextSubscription.Categories)
-				{
-
-					var targetCategories = categories.Where(category => category.Id.Equals(nextCategory.Id));
-					foreach (var targetCategory in targetCategories)
-					{
-						targetCategory.AddSubscription(subscription);
-					}
-				}
-			}
-
-			Categories = categories.OrderBy(category => category.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			Categories = await FetchCategoriesForCurrentUser();
 			CategoriesLoaded?.Invoke(this, new EventArgs());
 		}
 
@@ -82,6 +60,30 @@ namespace App.Dashboard
 
 				_cancellationTokenSource = new CancellationTokenSource();
 			}
+		}
+
+		private async Task<List<Category>> FetchCategoriesForCurrentUser()
+		{
+			var categories = (await _feedlyApi.GetSubscrition())
+				.SelectMany(subscrition => subscrition.Categories)
+				.Select(categoryDto => new Category(categoryDto))
+				.Distinct()
+				.OrderBy(category => category.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+
+
+			foreach (var nextSubscription in await _feedlyApi.GetSubscrition())
+			{
+				foreach (var nextCategory in nextSubscription.Categories)
+				{
+					var targetCategories = categories.Where(category => category.Id.Equals(nextCategory.Id));
+					foreach (var targetCategory in targetCategories)
+					{
+						targetCategory.AddSubscription(new Subscription(nextSubscription));
+					}
+				}
+			}
+
+			return categories;
 		}
 	}
 }
