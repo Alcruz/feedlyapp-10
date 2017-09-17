@@ -1,4 +1,3 @@
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Net.Http;
 using System.Linq;
@@ -9,6 +8,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace App.Models
 {
