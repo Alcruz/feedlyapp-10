@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Models
+namespace Feedly10.App.Models
 {
 	public abstract class UIModel : ObservableObject
 	{

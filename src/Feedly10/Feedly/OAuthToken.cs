@@ -1,7 +1,7 @@
-﻿using App.Utils;
+﻿using Feedly10.App.Utils;
 using System;
 
-namespace App.Feedly
+namespace Feedly10.App.Feedly
 {
 	public class OAuthToken
 	{

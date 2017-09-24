@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
 
-namespace App
+namespace Feedly10.App
 {
     public abstract class PageViewModel : ViewModelBase
     {

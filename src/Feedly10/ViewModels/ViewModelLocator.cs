@@ -1,9 +1,9 @@
-﻿using App.Auth;
-using App.Dashboard;
+﻿using Feedly10.App.Auth;
+using Feedly10.App.Dashboard;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 
-namespace App.ViewModels
+namespace Feedly10.App.ViewModels
 {
 	public class ViewModelLocator
 	{

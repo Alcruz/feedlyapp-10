@@ -4,7 +4,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace App
+namespace Feedly10.App
 {
 	public abstract class BasePage : Page
 	{

@@ -1,13 +1,9 @@
-﻿using App.Models;
+﻿using Feedly10.App.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace App.Dashboard
+namespace Feedly10.App.Dashboard
 {
 	public class SidebarEntryTemplateSelector : DataTemplateSelector
 	{

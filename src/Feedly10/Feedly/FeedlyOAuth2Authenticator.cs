@@ -4,11 +4,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
-using App.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Feedly10.App.Utils;
 
-namespace App.Feedly
+namespace Feedly10.App.Feedly
 {
 	public class FeedlyOAuth2Authenticator
 	{

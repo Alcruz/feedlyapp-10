@@ -1,15 +1,15 @@
-﻿using App.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System.Threading;
 using System;
 using System.Threading.Tasks;
+using Feedly10.App.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace App.Dashboard
+namespace Feedly10.App.Dashboard
 {
 	internal sealed partial class SubscriptionSidebar : UserControl
 	{

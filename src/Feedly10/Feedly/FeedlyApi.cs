@@ -6,7 +6,7 @@ using Newtonsoft.Json.Serialization;
 using System.Threading;
 using System.Net.Http;
 
-namespace App.Feedly
+namespace Feedly10.App.Feedly
 {
 	public class FeedlyApi
 	{

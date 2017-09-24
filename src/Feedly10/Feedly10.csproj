@@ -7,8 +7,8 @@
     <ProjectGuid>{82E9AEDC-6480-44DE-B377-7516D6173067}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>App</RootNamespace>
-    <AssemblyName>App</AssemblyName>
+    <RootNamespace>Feedly10.App</RootNamespace>
+    <AssemblyName>Feedly10.App</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
@@ -120,9 +120,6 @@
     <Compile Include="Dashboard\MainViewModel.cs" />
     <Compile Include="Feedly\StreamDto.cs" />
     <Compile Include="Models\Subscription.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Feedly\FeedlyOAuth2Authenticator.cs" />
     <Compile Include="Feedly\OAuthToken.cs" />
@@ -161,10 +158,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dashboard\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.Utils
+namespace Feedly10.App.Utils
 {
     public class Assert
     {

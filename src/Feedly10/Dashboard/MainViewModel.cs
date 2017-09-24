@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
-using App.Models;
 using System.Threading;
+using Feedly10.App.Models;
 
-namespace App.Dashboard
+namespace Feedly10.App.Dashboard
 {
 	public class MainViewModel : PageViewModel
 	{

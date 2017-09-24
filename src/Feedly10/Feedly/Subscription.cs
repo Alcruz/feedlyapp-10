@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace App.Feedly
+namespace Feedly10.App.Feedly
 {
 	public class Subscription
 	{

@@ -2,7 +2,7 @@ using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace App.Converters
+namespace Feedly10.App.Converters
 {
     public class HtmlStripperConverter : IValueConverter
     {

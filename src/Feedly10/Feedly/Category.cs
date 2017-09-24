@@ -1,4 +1,4 @@
-namespace App.Feedly
+namespace Feedly10.App.Feedly
 {
 	public class Category
 	{

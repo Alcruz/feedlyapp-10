@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Windows.UI.Xaml.Data;
 
-namespace App.Converters
+namespace Feedly10.App.Converters
 {
     public class ValueWhenConverter : IValueConverter
     {

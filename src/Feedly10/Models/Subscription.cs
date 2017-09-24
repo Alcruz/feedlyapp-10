@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace App.Models
+namespace Feedly10.App.Models
 {
 	public class Subscription : AbstractSubscription
 	{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace App.Utils
+namespace Feedly10.App.Utils
 {
     public static class UriBuilderExtensions
     {

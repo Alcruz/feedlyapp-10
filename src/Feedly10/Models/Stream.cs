@@ -1,4 +1,4 @@
-﻿using App.Models;
+﻿using Feedly10.App.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Dashboard
+namespace Feedly10.App.Dashboard
 {
     public class Stream : UIModel
     {

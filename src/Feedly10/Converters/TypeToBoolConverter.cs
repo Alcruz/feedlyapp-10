@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace App.Converters
+namespace Feedly10.App.Converters
 {
 	public class TypeToBoolConverter : IValueConverter
 	{

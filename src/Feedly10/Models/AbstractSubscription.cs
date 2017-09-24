@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace App.Models
+namespace Feedly10.App.Models
 {
 	public abstract class AbstractSubscription : UIModel
 	{

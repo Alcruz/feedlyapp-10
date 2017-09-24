@@ -1,11 +1,11 @@
 ﻿<app:BasePage
-	x:Class="App.Dashboard.MainPage"
+	x:Class="Feedly10.App.Dashboard.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:app="using:App"
-	xmlns:locals="using:App.Dashboard"
+	xmlns:app="using:Feedly10.App"
+	xmlns:locals="using:Feedly10.App.Dashboard"
 	DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
 	mc:Ignorable="d">
 

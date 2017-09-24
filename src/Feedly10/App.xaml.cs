@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Feedly10.App.Auth;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using App.Auth;
 
-namespace App
+namespace Feedly10.App
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

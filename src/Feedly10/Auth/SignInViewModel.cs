@@ -2,10 +2,10 @@
 using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel.Core;
 using System;
-using App.Utils;
-using App.Feedly;
+using Feedly10.App.Feedly;
+using Feedly10.App.Utils;
 
-namespace App.Auth
+namespace Feedly10.App.Auth
 {
 	public class SignInViewModel : PageViewModel
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace App.Utils
+namespace Feedly10.App.Utils
 {
     public static class CollectionExtensions
     {
