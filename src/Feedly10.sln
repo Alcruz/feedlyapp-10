@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feedly10", "Feedly10\Feedly10.csproj", "{82E9AEDC-6480-44DE-B377-7516D6173067}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feedly10.Tests", "Feedly10.Tests\Feedly10.Tests.csproj", "{1732A403-5C88-4527-863C-DAB5ED6708CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,26 @@ Global
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.ActiveCfg = Release|x86
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.Build.0 = Release|x86
 		{82E9AEDC-6480-44DE-B377-7516D6173067}.Release|x86.Deploy.0 = Release|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|ARM.Build.0 = Debug|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|ARM.Deploy.0 = Debug|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x64.ActiveCfg = Debug|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x64.Build.0 = Debug|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x64.Deploy.0 = Debug|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x86.ActiveCfg = Debug|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x86.Build.0 = Debug|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Debug|x86.Deploy.0 = Debug|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|Any CPU.ActiveCfg = Release|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|ARM.ActiveCfg = Release|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|ARM.Build.0 = Release|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|ARM.Deploy.0 = Release|ARM
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x64.ActiveCfg = Release|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x64.Build.0 = Release|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x64.Deploy.0 = Release|x64
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x86.ActiveCfg = Release|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x86.Build.0 = Release|x86
+		{1732A403-5C88-4527-863C-DAB5ED6708CE}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
