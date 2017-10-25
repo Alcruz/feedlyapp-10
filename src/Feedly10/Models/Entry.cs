@@ -1,4 +1,5 @@
-﻿using Feedly10.App.Models;
+﻿using Feedly10.App.Converters;
+using Feedly10.App.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,12 @@ namespace Feedly10.App.Dashboard
 			ThumbnailUrl = entryDto.Visual?.Url?? string.Empty;
 			Content = entryDto.Content?.Content ?? string.Empty;
 			Unread = entryDto.Unread;
-		}
+            Engagement = entryDto.Engagement;
+            PublishedDate = TimeSpanConverter.ConvertToDate(Published).ToString("MMM dd");
+            ElepsedDays = (int)(DateTime.Now - TimeSpanConverter.ConvertToDate(Published)).TotalDays;
+        }
 
-		public string OriginId { get; private set; }
+        public string OriginId { get; private set; }
 		public string Fingerprint { get; private set; }
 		public long Updated { get; private set; }
 		public string Title { get; private set; }
@@ -36,8 +40,11 @@ namespace Feedly10.App.Dashboard
 		public string Content { get; private set; }
 		public bool Unread { get; private set; }
 		public string ThumbnailUrl { get; private set; }
+        public int Engagement { get; set; }
+        public string PublishedDate { get; set; }
+        public int ElepsedDays { get; set; }
 
-		private static string ExtractText(string html)
+        private static string ExtractText(string html)
 		{
 			if (html == null)
 			{

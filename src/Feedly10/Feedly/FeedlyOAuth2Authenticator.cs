@@ -35,7 +35,7 @@ namespace Feedly10.App.Feedly
 				{
 					["code"] = authCode,
 					["client_id"] = "sandbox",
-					["client_secret"] = "sTdnABpJDCmpurfU",
+					["client_secret"] = "g8PThNUyMwy5ZJBw",
 					["redirect_uri"] = FeedlyRegistry.AuthRedirectUrl,
 					["grant_type"] = "authorization_code"
 				};
