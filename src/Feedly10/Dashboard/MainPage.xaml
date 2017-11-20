@@ -30,21 +30,23 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
-							<Image VerticalAlignment="Top" Width="200" Height="112"
-								   Margin="8" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding ThumbnailUrl}" />
-							<TextBlock IsTextSelectionEnabled="True" Margin="0, 8" FontWeight="Bold" FontSize="18" Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
-
-							<TextBlock IsTextSelectionEnabled="True" Grid.Row="1" Grid.Column="1" 
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding PublishedDate}" Margin="8, 20" Foreground="Gray"  />
+                            <Image VerticalAlignment="Top" Width="200" Height="112"
+								   Margin="8" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Source="{Binding ThumbnailUrl}" />
+							<TextBlock IsTextSelectionEnabled="True" Margin="0, 8" FontWeight="Bold" FontSize="18" Grid.Row="1" Grid.Column="1" Text="{Binding Title}" />
+                            <TextBlock Text="{Binding Author}" Foreground="Gray" Grid.Row="2" Grid.Column="2" Margin="0, 28" FontSize="10"/>
+                            <TextBlock Text="{Binding ElepsedDays}" Foreground="Gray" Grid.Row="2" Grid.Column="2" Margin="0, 28" FontSize="10"/>
+                            <TextBlock IsTextSelectionEnabled="True" Grid.Row="1" Grid.Column="1" 
 									    VerticalAlignment="Bottom"
 										TextTrimming="WordEllipsis" 
 										TextWrapping="WrapWholeWords"
 									    LineHeight="5"
 										MaxLines="3"
-										Text="{Binding Summary}" />
+										Text="{Binding Summary}" Foreground="Gray" />
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\TimeSpanConverter.cs" />
     <Compile Include="Dashboard\SidebarEntryTemplateSelector.cs" />
     <Compile Include="Models\AbstractSubscription.cs" />
     <Compile Include="Models\Category.cs" />

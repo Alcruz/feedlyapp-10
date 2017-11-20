@@ -1,3 +1,5 @@
+using Feedly10.App.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace Feedly10.App.Feedly
@@ -68,5 +70,6 @@ namespace Feedly10.App.Feedly
         public ContentDto Content { get; set; }
         public Visual Visual { get; set; }
         public bool Unread { get; set; }
+        public int Engagement { get; set; }
     }
 }
